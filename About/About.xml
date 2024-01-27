@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+
+  <packageId>Jessicarrr.TalkToPawns</packageId>
+	<name>Talk to Pawns!</name>
+	<description>Talk to pawns directly using ChatGPT or a large language model of your choice.</description>
+
+	<supportedVersions>
+	  <li>1.4</li>
+	</supportedVersions>
+
+	<modDependencies>
+	  <li>
+		<packageId>brrainz.harmony</packageId>
+		<displayName>Harmony</displayName>
+		<steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+	  </li>
+	</modDependencies>
+
+</ModMetaData>
+
