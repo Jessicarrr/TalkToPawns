@@ -1,4 +1,5 @@
-﻿using AiConversations.GUI;
+﻿using AiConversations.Controllers;
+using AiConversations.GUI;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -32,18 +33,11 @@ namespace AiConversations.HarmonyPatches
             }
         }
 
-
         private static void OpenChatInterface(Pawn initiator, Pawn recipient)
         {
-            var window = ChatWindow.GetSingletonInstance();
-
-            if (Find.WindowStack.IsOpen(window) == true)
-            {
-                return;
-            }
-
-            window.UpdatePawns(initiator, recipient);
-            Find.WindowStack.Add(window);
+            var controller = ChatController.GetSingletonInstance();
+            controller.UpdatePawns(initiator, recipient);
+            controller.TryOpenWindow();
         }
     }
 }

@@ -634,11 +634,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\AiConversations\\Source\\AiConversations\\AiConversations\\TalkToPawns.csproj",
+      "projectUniqueName": "C:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\TalkToPawns\\Source\\TalkToPawns\\AiConversations\\TalkToPawns.csproj",
       "projectName": "AiConversations",
-      "projectPath": "C:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\AiConversations\\Source\\AiConversations\\AiConversations\\TalkToPawns.csproj",
+      "projectPath": "C:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\TalkToPawns\\Source\\TalkToPawns\\AiConversations\\TalkToPawns.csproj",
       "packagesPath": "C:\\Users\\Jessi\\.nuget\\packages\\",
-      "outputPath": "C:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\AiConversations\\Source\\AiConversations\\AiConversations\\obj\\",
+      "outputPath": "C:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\TalkToPawns\\Source\\TalkToPawns\\AiConversations\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [

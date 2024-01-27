@@ -5,3 +5,10 @@ C:\Games\Steam\steamapps\common\RimWorld\Mods\AiConversations\Source\AiConversat
 C:\Games\Steam\steamapps\common\RimWorld\Mods\AiConversations\Source\AiConversations\AiConversations\obj\Debug\TalkToPawns.csproj.CopyComplete
 C:\Games\Steam\steamapps\common\RimWorld\Mods\AiConversations\Source\AiConversations\AiConversations\obj\Debug\AiConversations.dll
 C:\Games\Steam\steamapps\common\RimWorld\Mods\AiConversations\Source\AiConversations\AiConversations\obj\Debug\AiConversations.pdb
+C:\Games\Steam\steamapps\common\RimWorld\Mods\TalkToPawns\Source\TalkToPawns\AiConversations\obj\Debug\TalkToPawns.csproj.AssemblyReference.cache
+C:\Games\Steam\steamapps\common\RimWorld\Mods\TalkToPawns\Source\TalkToPawns\AiConversations\obj\Debug\TalkToPawns.csproj.CoreCompileInputs.cache
+C:\Games\Steam\steamapps\common\RimWorld\Mods\TalkToPawns\Source\TalkToPawns\AiConversations\obj\Debug\AiConversations.dll
+C:\Games\Steam\steamapps\common\RimWorld\Mods\TalkToPawns\Source\TalkToPawns\AiConversations\obj\Debug\AiConversations.pdb
+C:\Games\Steam\steamapps\common\RimWorld\Mods\TalkToPawns\Assemblies\AiConversations.dll
+C:\Games\Steam\steamapps\common\RimWorld\Mods\TalkToPawns\Assemblies\AiConversations.pdb
+C:\Games\Steam\steamapps\common\RimWorld\Mods\TalkToPawns\Source\TalkToPawns\AiConversations\obj\Debug\TalkToPawns.csproj.CopyComplete

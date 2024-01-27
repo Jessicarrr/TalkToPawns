@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rFWCH4exllKqHD0bg/vgBpkvDfY3Hmm+u7QumL2LHN8WDryz1uaQA8HpaeDyUQhgCgOImcamwJplDLuJuTvjhg==",
+  "dgSpecHash": "FqtWainclm4XlMsNCH8874ZNSziwe8AqHI4sS9POUwE36dH4gb8/44z6Ab5SfTo2ewNsZ+BfSLFxyzL1xdFDfQ==",
   "success": true,
-  "projectFilePath": "C:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\AiConversations\\Source\\AiConversations\\AiConversations\\TalkToPawns.csproj",
+  "projectFilePath": "C:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\TalkToPawns\\Source\\TalkToPawns\\AiConversations\\TalkToPawns.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Jessi\\.nuget\\packages\\krafs.rimworld.ref\\1.4.3901\\krafs.rimworld.ref.1.4.3901.nupkg.sha512",
     "C:\\Users\\Jessi\\.nuget\\packages\\lib.harmony\\2.2.2\\lib.harmony.2.2.2.nupkg.sha512"
