@@ -134,64 +134,6 @@ namespace AiConversations
 
             return activity;
         }
-
-        /*public static string PreparePromptFor(Pawn initiator, Pawn aiRecipient)
-        {
-
-            string basePrompt = TTPModSettings.generalSettings.prompt;
-            string prompt = basePrompt;
-            string isRecipientSlaveText = "";
-            string isInitiatorSlaveText = "";
-            string recipientIsTrader = "";
-            string recipientLowNeedsText = "Your current needs are: ";
-            string memories = "";
-
-            foreach (Thought_Memory memory in aiRecipient.needs.mood?.thoughts.memories.Memories)
-            {
-                if (memory.Description.NullOrEmpty() == false)
-                {
-                    memories += memory.Description + ", ";
-                }
-            }
-
-            if (aiRecipient.IsSlave == true)
-            {
-                isRecipientSlaveText = "You are a slave.";
-            }
-
-            if (initiator.IsSlave == true)
-            {
-                isInitiatorSlaveText = initiator.Name.ToString() + " is a slave.";
-            }
-
-            if (aiRecipient.CanTradeNow == true)
-            {
-                recipientIsTrader = "You are a trader.";
-            }
-
-            string lowNeeds = recipientLowNeedsText + GetNeedsThatNeedAttending(aiRecipient);
-
-            string preparedPrompt = prompt.Replace("{recipient_name}", aiRecipient.Name.ToStringFull)
-                .Replace("{recipient_age}", aiRecipient.ageTracker.AgeBiologicalYears.ToString())
-                .Replace("{recipient_gender}", aiRecipient.gender.ToString())
-                .Replace("{initiator_name}", initiator.Name.ToStringFull)
-                .Replace("{recipient_traits_list}", GetListOfTraits(aiRecipient))
-                .Replace("{opinion_on_initiator}", aiRecipient.relations.OpinionExplanation(initiator))
-                .Replace("{recipient_current_action}", aiRecipient.CurJob.reportStringOverride)
-                .Replace("{say_if_recipient_is_trader}", recipientIsTrader)
-                .Replace("{recipient_mood}", aiRecipient.needs.mood?.MoodString)
-                .Replace("{say_any_low_needs}", lowNeeds)
-                .Replace("{say_if_recipient_is_slave}", isRecipientSlaveText)
-                .Replace("{recipient_recent_memories}", memories)
-                .Replace("\n", "");
-
-            string pattern = @"<color=#(?:[0-9a-fA-F]{6}|[0-9a-fA-F]{8})>(.*?)</color>";
-
-            // Replace the color tags with just the name
-            preparedPrompt = Regex.Replace(preparedPrompt, pattern, "$1");
-
-            return preparedPrompt;
-        }*/
         
         public static void PrintPawnInfo(Pawn pawn, Pawn initiator)
         {
