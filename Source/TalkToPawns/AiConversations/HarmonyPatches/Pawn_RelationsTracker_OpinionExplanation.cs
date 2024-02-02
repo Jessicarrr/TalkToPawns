@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using AiConversations.Relationships;
+using HarmonyLib;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,22 @@ namespace AiConversations.HarmonyPatches
     {
         public static void Postfix(Pawn_RelationsTracker __instance, ref string __result, Pawn other)
         {
+            Pawn pawn = (Pawn)AccessTools.Field(typeof(Pawn_RelationsTracker), "pawn").GetValue(__instance);
+
             var stringBuilder = new StringBuilder(__result + "\n");
+
+            Log.Message("Num memories: " + PawnRelationshipTrackerLLM.memories.Count());
+
+            foreach(PawnRelationshipMemoryLLM memory in PawnRelationshipTrackerLLM.memories)
+            {
+                if(memory.memoryHolderPawn == pawn && memory.thoughtAboutPawn == other)
+                {
+                    stringBuilder.AppendLine(" - " + memory.description + " " + memory.relationshipImpact);
+                }
+
+                
+            }
+
             stringBuilder.AppendLine(" - Had an arbitrary memory -25");
             __result = stringBuilder.ToString();
         }

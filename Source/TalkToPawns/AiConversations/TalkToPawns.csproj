@@ -49,8 +49,10 @@
     <Compile Include="GUI\ModSettingsPartials\SettingsArea_ChatGPT.cs" />
     <Compile Include="GUI\ModSettingsPartials\SettingsArea_General.cs" />
     <Compile Include="GUI\StringDropdownMenu.cs" />
+    <Compile Include="HarmonyPatches\GameDataSaveLoader_LoadGame.cs" />
     <Compile Include="HarmonyPatches\Pawn_RelationsTracker_OpinionExplanation.cs" />
     <Compile Include="HarmonyPatches\Pawn_RelationsTracker_OpinionOf.cs" />
+    <Compile Include="HarmonyPatches\SafeSaver_DoSave.cs" />
     <Compile Include="HelperClasses\Helpers.cs" />
     <Compile Include="HelperClasses\PromptParser.cs" />
     <Compile Include="HelperClasses\PromptVariable.cs" />
@@ -64,6 +66,8 @@
     <Compile Include="LLMs\Networking\SerializableTypes\MessageRequest.cs" />
     <Compile Include="LLMs\Networking\SerializableTypes\Usage.cs" />
     <Compile Include="Parsing\JsonParser.cs" />
+    <Compile Include="Relationships\PawnRelationshipMemoryLLM.cs" />
+    <Compile Include="Relationships\PawnRelationshipTrackerLLM.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="HarmonyPatches\Pawn_GetFloatMenuOptions_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

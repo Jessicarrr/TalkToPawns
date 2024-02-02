@@ -3,6 +3,7 @@ using AiConversations.HelperClasses;
 using AiConversations.LLMs;
 using AiConversations.LLMs.Networking.SerializableTypes;
 using AiConversations.Parsing;
+using AiConversations.Relationships;
 using JsonFx.Serialization;
 using System;
 using System.Collections.Generic;
@@ -75,6 +76,8 @@ namespace AiConversations.Controllers
                 return;
             }
 
+            PawnRelationshipTrackerLLM.AddTestMemory(talkedToPawn, selfPawn);
+
             window.UpdatePawns(selfPawn, talkedToPawn);
             Find.WindowStack.Add(window);
         }
@@ -86,8 +89,8 @@ namespace AiConversations.Controllers
             try
             {
                 ChatCompletionResponse parsed = JsonParser.ParseStringToDynamic(response);
-                Log.Message("HandleAiMessage: parsed: " + parsed.ToString());
-                Log.Message("The message: " + parsed.choices[0].message.content);
+                //Log.Message("HandleAiMessage: parsed: " + parsed.ToString());
+                //Log.Message("The message: " + parsed.choices[0].message.content);
                 window.AiSendMessage(talkedToPawn, parsed.choices[0].message.content);
                 window.loadingAiResponse = false;
             }

@@ -33,6 +33,13 @@ namespace AiConversations.GUI
 
         internal List<ChatMessage> chatHistory = new List<ChatMessage>();
 
+        public override void Close(bool doCloseSound = true)
+        {
+            chatHistory.Clear();
+            Log.Message("Closed window");
+            Find.WindowStack.TryRemove(this, doCloseSound);
+        }
+
         public void UpdatePawns(Pawn selfPawn, Pawn talkedToPawn)
         {
             this.selfPawn = selfPawn;
