@@ -31,7 +31,7 @@ namespace AiConversations.GUI
 
         public bool loadingAiResponse = false;
 
-        private List<ChatMessage> chatHistory = new List<ChatMessage>();
+        internal List<ChatMessage> chatHistory = new List<ChatMessage>();
 
         public void UpdatePawns(Pawn selfPawn, Pawn talkedToPawn)
         {
@@ -144,6 +144,20 @@ namespace AiConversations.GUI
             // Call a method to handle the sending of the message
             SendMessage();
             // Do not call the base method, as that would close the window
+        }
+
+        public void AiSendMessage(Pawn pawn, string message)
+        {
+            bool wasScrollbarAtBottom = IsScrollBarAtBottom();
+            Log.Message($"Was scrollbar at bottom?: {wasScrollbarAtBottom}");
+            ChatMessage newMessage = new ChatMessage(pawn, message);
+            chatHistory.Add(newMessage);
+
+            if (wasScrollbarAtBottom)
+            {
+                shouldUpdateScrollToBottom = true;
+                Log.Message($"Scrolling to bottom");
+            }
         }
 
         private void SendMessage()

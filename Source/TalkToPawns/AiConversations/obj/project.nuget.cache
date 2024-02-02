@@ -1,11 +1,19 @@
 {
   "version": 2,
-  "dgSpecHash": "FqtWainclm4XlMsNCH8874ZNSziwe8AqHI4sS9POUwE36dH4gb8/44z6Ab5SfTo2ewNsZ+BfSLFxyzL1xdFDfQ==",
+  "dgSpecHash": "z4Av+AjyMBjj5ZVa18ZZM4c7cs2xgQcqp7kHpdefESfl02rsq56Ar0x65dfRJBtnNAt7Iv4qfEcgknUT+GJTOQ==",
   "success": true,
   "projectFilePath": "C:\\Games\\Steam\\steamapps\\common\\RimWorld\\Mods\\TalkToPawns\\Source\\TalkToPawns\\AiConversations\\TalkToPawns.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Jessi\\.nuget\\packages\\jsonfx\\2.0.1209.2802\\jsonfx.2.0.1209.2802.nupkg.sha512",
     "C:\\Users\\Jessi\\.nuget\\packages\\krafs.rimworld.ref\\1.4.3901\\krafs.rimworld.ref.1.4.3901.nupkg.sha512",
-    "C:\\Users\\Jessi\\.nuget\\packages\\lib.harmony\\2.2.2\\lib.harmony.2.2.2.nupkg.sha512"
+    "C:\\Users\\Jessi\\.nuget\\packages\\lib.harmony\\2.2.2\\lib.harmony.2.2.2.nupkg.sha512",
+    "C:\\Users\\Jessi\\.nuget\\packages\\system.io\\4.3.0\\system.io.4.3.0.nupkg.sha512",
+    "C:\\Users\\Jessi\\.nuget\\packages\\system.net.http\\4.3.4\\system.net.http.4.3.4.nupkg.sha512",
+    "C:\\Users\\Jessi\\.nuget\\packages\\system.runtime\\4.3.0\\system.runtime.4.3.0.nupkg.sha512",
+    "C:\\Users\\Jessi\\.nuget\\packages\\system.security.cryptography.algorithms\\4.3.0\\system.security.cryptography.algorithms.4.3.0.nupkg.sha512",
+    "C:\\Users\\Jessi\\.nuget\\packages\\system.security.cryptography.encoding\\4.3.0\\system.security.cryptography.encoding.4.3.0.nupkg.sha512",
+    "C:\\Users\\Jessi\\.nuget\\packages\\system.security.cryptography.primitives\\4.3.0\\system.security.cryptography.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\Jessi\\.nuget\\packages\\system.security.cryptography.x509certificates\\4.3.0\\system.security.cryptography.x509certificates.4.3.0.nupkg.sha512"
   ],
   "logs": []
 }

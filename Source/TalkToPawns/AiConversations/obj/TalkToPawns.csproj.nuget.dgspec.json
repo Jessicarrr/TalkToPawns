@@ -38,6 +38,10 @@
       "frameworks": {
         "net472": {
           "dependencies": {
+            "JsonFx": {
+              "target": "Package",
+              "version": "[2.0.1209.2802, )"
+            },
             "Krafs.Rimworld.Ref": {
               "target": "Package",
               "version": "[1.4.3901, )"
@@ -45,6 +49,10 @@
             "Lib.Harmony": {
               "target": "Package",
               "version": "[2.2.2, )"
+            },
+            "System.Net.Http": {
+              "target": "Package",
+              "version": "[4.3.4, )"
             }
           }
         }
