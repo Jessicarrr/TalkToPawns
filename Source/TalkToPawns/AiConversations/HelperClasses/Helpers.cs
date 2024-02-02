@@ -125,7 +125,7 @@ namespace AiConversations
 
         public static string GetCurrentActivityString(Pawn pawn)
         {
-            string activity = pawn.jobs.curJob.reportStringOverride;
+            string activity = pawn.GetJobReport();
 
             if (activity.NullOrEmpty() == true)
             {
