@@ -49,6 +49,8 @@
     <Compile Include="GUI\ModSettingsPartials\SettingsArea_ChatGPT.cs" />
     <Compile Include="GUI\ModSettingsPartials\SettingsArea_General.cs" />
     <Compile Include="GUI\StringDropdownMenu.cs" />
+    <Compile Include="HarmonyPatches\Pawn_RelationsTracker_OpinionExplanation.cs" />
+    <Compile Include="HarmonyPatches\Pawn_RelationsTracker_OpinionOf.cs" />
     <Compile Include="HelperClasses\Helpers.cs" />
     <Compile Include="HelperClasses\PromptParser.cs" />
     <Compile Include="HelperClasses\PromptVariable.cs" />
