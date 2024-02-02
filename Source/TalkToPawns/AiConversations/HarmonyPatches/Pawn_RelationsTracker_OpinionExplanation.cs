@@ -15,7 +15,7 @@ namespace AiConversations.HarmonyPatches
         public static void Postfix(Pawn_RelationsTracker __instance, ref string __result, Pawn other)
         {
             var stringBuilder = new StringBuilder(__result + "\n");
-            stringBuilder.AppendLine("- Had an arbitrary memory -25");
+            stringBuilder.AppendLine(" - Had an arbitrary memory -25");
             __result = stringBuilder.ToString();
         }
     }
