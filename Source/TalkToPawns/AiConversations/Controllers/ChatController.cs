@@ -87,7 +87,7 @@ namespace AiConversations.Controllers
         {
             Log.Message("Chat window closed event caught " + chatHistory.ToString());
 
-            if (chatHistory.Count < 1)
+            if (chatHistory.Count() < 1)
             {
                 Log.Message("Chat history was empty so we don't need to ask for a summary.");
                 return;
@@ -106,7 +106,23 @@ namespace AiConversations.Controllers
 
         private void HandleChatSummaryResponse(string response)
         {
+            try
+            {
+                ChatCompletionResponse parsed = JsonParser.ParseStringToDynamic(response);
+                string aiResponse = parsed.choices[0].message.content;
 
+                PawnRelationshipTrackerLLM.TryCreateMemoryFromString(
+                    this.talkedToPawn, this.selfPawn, aiResponse);
+
+                window.loadingAiResponse = false;
+
+            }
+            catch(SerializationException e)
+            {
+                string errorMsg = MakeErrorMessage(response);
+                Log.Message(errorMsg + ", " + response + "\nSerializationException: " + e.ToString());
+                window.loadingAiResponse = false;
+            }
         }
 
         private void HandleAiMessage(string response, bool isSummary = false)

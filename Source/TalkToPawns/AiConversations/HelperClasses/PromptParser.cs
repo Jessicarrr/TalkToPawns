@@ -48,8 +48,7 @@ namespace AiConversations.HelperClasses
                 editedPrompt = editedPrompt.Replace(promptVar.placeholder, promptVar.DoReplace(aiRecipient, initiator));
             }
 
-            editedPrompt = editedPrompt.Replace("\n", "");
-            editedPrompt = editedPrompt.Replace("\r", "");
+            editedPrompt = editedPrompt.Replace("\n", "").Replace("\r", "");
             string pattern = @"<color=#(?:[0-9a-fA-F]{6}|[0-9a-fA-F]{8})>(.*?)</color>";
 
             // Replace the color tags with just the name

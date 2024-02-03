@@ -14,9 +14,11 @@ namespace AiConversations
     {
         static Startup()
         {
-            Log.Message("Talk to Pawns initializing"); //Outputs "Hello World!" to the dev console.
-            var harmony = new Harmony("com.Jessicarrr.TalkToPawns");
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
+            Log.Message("Talk to Pawns initializing");
+
+            // HugsLib seems to be making my patches work so this would just make it patch twice...
+            /*var harmony = new Harmony("com.Jessicarrr.TalkToPawns");
+            harmony.PatchAll(Assembly.GetExecutingAssembly());*/
         }
     }
 }
