@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using AiConversations.Relationships;
+using RimWorld;
 using System;
 using System.Collections;
 using System.Collections.Generic;

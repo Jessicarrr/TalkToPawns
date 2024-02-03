@@ -25,13 +25,9 @@ namespace AiConversations.HarmonyPatches
             {
                 if(memory.memoryHolderPawnID == pawn.ThingID && memory.thoughtAboutPawnID == other.ThingID)
                 {
-                    stringBuilder.AppendLine(" - " + memory.description + " " + memory.relationshipImpact);
+                    stringBuilder.AppendLine(memory.GetOpinionString());
                 }
-
-                
             }
-
-            stringBuilder.AppendLine(" - Had an arbitrary memory -25");
             __result = stringBuilder.ToString();
         }
     }

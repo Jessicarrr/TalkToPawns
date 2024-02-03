@@ -19,16 +19,12 @@ namespace AiConversations.HarmonyPatches
             // Access the 'pawn' private field using reflection
             Pawn pawn = (Pawn)AccessTools.Field(typeof(Pawn_RelationsTracker), "pawn").GetValue(__instance);
 
-            __result = __result - 25; // Arbitrary decrease in relationship score
-
             foreach (PawnRelationshipMemoryLLM memory in PawnRelationshipTrackerLLM.memories)
             {
                 if (memory.memoryHolderPawnID == pawn.ThingID && memory.thoughtAboutPawnID == other.ThingID)
                 {
                     __result += memory.relationshipImpact;
                 }
-
-                
             }
 
             // Ensure the result is not positive if the pawn is hostile to the other

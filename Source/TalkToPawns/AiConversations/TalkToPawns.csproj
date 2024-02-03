@@ -44,8 +44,6 @@
     <Compile Include="Enums.cs" />
     <Compile Include="GUI\ChatMessage.cs" />
     <Compile Include="GUI\ChatWindow.cs" />
-    <Compile Include="GUI\EnumDropdownMenu.cs" />
-    <Compile Include="GUI\StringDropdownMenu.cs" />
     <Compile Include="HarmonyPatches\GameDataSaveLoader_LoadGame.cs" />
     <Compile Include="HarmonyPatches\Pawn_RelationsTracker_OpinionExplanation.cs" />
     <Compile Include="HarmonyPatches\Pawn_RelationsTracker_OpinionOf.cs" />
@@ -56,7 +54,6 @@
     <Compile Include="LLMs\Networking\ApiMessager.cs" />
     <Compile Include="LLMs\Networking\ApiMessager_OpenAI.cs" />
     <Compile Include="LLMs\Networking\Extensions\UnityWebRequestExtensions.cs" />
-    <Compile Include="LLMs\Networking\OpenAiReceivingObject.cs" />
     <Compile Include="LLMs\Networking\SerializableTypes\ChatCompletionResponse.cs" />
     <Compile Include="LLMs\Networking\SerializableTypes\Choice.cs" />
     <Compile Include="LLMs\Networking\SerializableTypes\Message.cs" />
