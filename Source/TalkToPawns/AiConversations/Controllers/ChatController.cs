@@ -86,6 +86,13 @@ namespace AiConversations.Controllers
         private void HandleChatWindowClosed(List<ChatMessage> chatHistory)
         {
             Log.Message("Chat window closed event caught " + chatHistory.ToString());
+
+            if (chatHistory.Count < 1)
+            {
+                Log.Message("Chat history was empty so we don't need to ask for a summary.");
+                return;
+            }
+
             window.loadingAiResponse = true;
 
             var languageModel = TTPModSettings.GetInstance().llmModelHandle.Value;
