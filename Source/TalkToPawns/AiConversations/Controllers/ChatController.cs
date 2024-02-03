@@ -69,6 +69,7 @@ namespace AiConversations.Controllers
             {
                 this.window = new ChatWindow();
                 this.window.OnMessageSent += HandleUserSentMessage;
+                this.window.OnWindowClosed += HandleChatWindowClosed;
             }
 
             if (Find.WindowStack.IsOpen(window) == true)
@@ -82,9 +83,34 @@ namespace AiConversations.Controllers
             Find.WindowStack.Add(window);
         }
 
-        private void HandleAiMessage(string response)
+        private void HandleChatWindowClosed(List<ChatMessage> chatHistory)
+        {
+            Log.Message("Chat window closed event caught " + chatHistory.ToString());
+            window.loadingAiResponse = true;
+
+            var languageModel = TTPModSettings.GetInstance().llmModelHandle.Value;
+            var apiMessager = apiTypeToApiMessager[languageModel];
+            Log.Message("preparing prompt...");
+            string chatPrompt = PromptParser.PreparePromptFor(this.selfPawn, this.talkedToPawn, TTPModSettings.GetInstance().promptHandle.Value);
+            string memoryPrompt = PromptParser.PreparePromptFor(this.selfPawn, this.talkedToPawn, TTPModSettings.GetInstance().summaryPrompt);
+
+            apiMessager.RequestChatMemory(selfPawn, talkedToPawn, chatHistory, chatPrompt, memoryPrompt);
+        }
+
+        private void HandleChatSummaryResponse(string response)
+        {
+
+        }
+
+        private void HandleAiMessage(string response, bool isSummary = false)
         {
             Log.Message("HandleAiMessage: response: " + response.ToString());
+
+            if (isSummary == true)
+            {
+                HandleChatSummaryResponse(response);
+                return;
+            }
 
             try
             {

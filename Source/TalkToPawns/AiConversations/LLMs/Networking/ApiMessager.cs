@@ -18,7 +18,7 @@ namespace AiConversations.LLMs
 
         //protected static readonly HttpClient client = new HttpClient();
         // Define a delegate for the message sent event
-        public delegate void MessageReceivedEventHandler(string response);
+        public delegate void MessageReceivedEventHandler(string response, bool isSummary = false);
 
         // Define an event based on the delegate
         public event MessageReceivedEventHandler OnMessageReceived;
@@ -28,11 +28,13 @@ namespace AiConversations.LLMs
 
         public bool isCallingApi = false;
 
+        public abstract void RequestChatMemory(Pawn initiator, Pawn talkedToPawn, List<ChatMessage> chatHistory, string chatPrompt, string memoryPrompt);
+
         public abstract void Send(Pawn initiator, Pawn talkedToPawn, List<ChatMessage> chatHistory, string prompt);
 
-        protected void InvokeEvent(string response)
+        protected void InvokeEvent(string response, bool isSummary = false)
         {
-            OnMessageReceived?.Invoke(response);
+            OnMessageReceived?.Invoke(response, isSummary);
         }
 
         //protected abstract Task PostRequest(string jsonData);

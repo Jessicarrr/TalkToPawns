@@ -22,6 +22,8 @@ public class TTPModSettings : ModBase
     internal SettingHandle<float> topPHandle;
     internal SettingHandle<float> frequencyPenaltyHandle;
 
+    internal string summaryPrompt = "You are tasked with creating a small summary of how you were treated in this conversation, as well as a relationship score modifier based on how the conversation went. Your entire reply should look like these examples: \"-2 Insulted me\", or  \"+1 Had a nice chat\", or \"-5 Insulted my personality\", or \"+5 Deep conversation\", or \"+1 Complimented me\", or \"+1 Was nice to me\", or \"+0 Okay conversation\" - for your summary, it is important to stick to the structure of the examples, while still coming up with your own unique wording for how the other person treated you. This is because the score and the explanation will be added to the relationship panel in RimWorld. Do not add anything else to your reply. Only do one summary, i.e. only 1 relation score modifier and 1 explanation. Your explanation should only be one sentence, ten words maximum. Do not add anything else to your response.";
+
     internal enum ChatGPTModel { gpt_3_5_turbo, gpt_3_5_turbo_16k, gpt_3_5_turbo_1106, gpt_4 }
 
     private static TTPModSettings Instance;

@@ -12,9 +12,11 @@ namespace AiConversations.GUI
     {
         // Define a delegate for the message sent event
         public delegate void MessageSentEventHandler(Pawn sender, string message);
+        public delegate void OnWindowClosedEventHandler(List<ChatMessage> chatHistory);
 
         // Define an event based on the delegate
         public event MessageSentEventHandler OnMessageSent;
+        public event OnWindowClosedEventHandler OnWindowClosed;
 
         private Pawn selfPawn;
         private Pawn talkedToPawn;
@@ -35,8 +37,11 @@ namespace AiConversations.GUI
 
         public override void Close(bool doCloseSound = true)
         {
+            List<ChatMessage> chatHistoryCopy = chatHistory.ListFullCopy();
+            OnWindowClosed?.Invoke(chatHistoryCopy);
             chatHistory.Clear();
-            Log.Message("Closed window");
+            //Log.Message("Closed window");
+            
             Find.WindowStack.TryRemove(this, doCloseSound);
         }
 

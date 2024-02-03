@@ -45,9 +45,6 @@
     <Compile Include="GUI\ChatMessage.cs" />
     <Compile Include="GUI\ChatWindow.cs" />
     <Compile Include="GUI\EnumDropdownMenu.cs" />
-    <Compile Include="GUI\ModSettingsPartials\SettingsArea.cs" />
-    <Compile Include="GUI\ModSettingsPartials\SettingsArea_ChatGPT.cs" />
-    <Compile Include="GUI\ModSettingsPartials\SettingsArea_General.cs" />
     <Compile Include="GUI\StringDropdownMenu.cs" />
     <Compile Include="HarmonyPatches\GameDataSaveLoader_LoadGame.cs" />
     <Compile Include="HarmonyPatches\Pawn_RelationsTracker_OpinionExplanation.cs" />

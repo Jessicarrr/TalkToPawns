@@ -20,7 +20,56 @@ namespace AiConversations.LLMs
     internal class ApiMessager_OpenAI : ApiMessager
     {
         public new string baseUrl = "https://api.openai.com/v1/chat/completions";
-        
+
+        public override async void RequestChatMemory(Pawn initiator, Pawn talkedToPawn, List<ChatMessage> chatHistory, string chatPrompt, string memoryPrompt)
+        {
+            List<string> serializedMessages = new List<string>();
+
+            // Manually serialize the system message
+            serializedMessages.Add(JsonUtility.ToJson(new Networking.SerializableTypes.Message
+            {
+                role = "system",
+                content = chatPrompt
+            }));
+
+            // Serialize each chat message
+            foreach (var msg in chatHistory)
+            {
+                string gptFriendlyRole = "user";
+
+                if (msg.pawn.Name.ToStringFull == initiator.Name.ToStringFull)
+                {
+                    gptFriendlyRole = "user";
+                }
+                if (msg.pawn.Name.ToStringFull == talkedToPawn.Name.ToStringFull)
+                {
+                    gptFriendlyRole = "assistant";
+                }
+
+                serializedMessages.Add(JsonUtility.ToJson(new Networking.SerializableTypes.Message
+                {
+                    role = gptFriendlyRole,
+                    content = msg.messageText
+                }));
+            }
+
+            serializedMessages.Add(JsonUtility.ToJson(new Networking.SerializableTypes.Message
+            {
+                role = "system",
+                content = memoryPrompt
+            }));
+
+            // Manually construct the JSON array string
+            string messagesJsonArray = "[" + string.Join(",", serializedMessages) + "]";
+
+            var modelString = TTPModSettings.GptModelEnumToString(TTPModSettings.GetInstance().chatGptModelHandle.Value);
+
+            // Manually assemble the final JSON string
+            string jsonData = $"{{\"model\":\"{modelString}\",\"messages\":{messagesJsonArray}}}";
+
+            Log.Message("Memory related Json Data compiled: " + jsonData);
+            await SendPostRequestAsync(jsonData, true);
+        }
 
         public override async void Send(Pawn initiator, Pawn talkedToPawn, List<ChatMessage> chatHistory, string prompt)
         {
@@ -66,7 +115,7 @@ namespace AiConversations.LLMs
             await SendPostRequestAsync(jsonData);
         }
 
-        public async Task<string> SendPostRequestAsync(string jsonData)
+        public async Task<string> SendPostRequestAsync(string jsonData, bool isSummary = false)
         {
             try
             {
@@ -79,7 +128,7 @@ namespace AiConversations.LLMs
 
                 string responseText = await request.SendWebRequestAsync();
                 Log.Message("theeee response" + responseText);
-                InvokeEvent(responseText);
+                InvokeEvent(responseText, isSummary);
                 
                 return responseText;
             }
