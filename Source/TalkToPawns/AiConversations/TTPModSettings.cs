@@ -1,114 +1,149 @@
-﻿using AiConversations.GUI;
-using AiConversations.GUI.ModSettingsPartials;
-using RimWorld;
+﻿using AiConversations;
+using AiConversations.HelperClasses;
+using HugsLib;
+using HugsLib.Settings;
+using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Text;
 using UnityEngine;
-using UnityEngine.XR;
 using Verse;
 
-namespace AiConversations
+public class TTPModSettings : ModBase
 {
-    public class TTPModSettings : ModSettings
+    public override string ModIdentifier => "TalkToPawnsMod";
+
+    internal SettingHandle<Enums.API> llmModelHandle;
+    internal SettingHandle<ChatGPTModel> chatGptModelHandle;
+    internal SettingHandle<string> apiKeyHandle;
+    internal SettingHandle<string> promptHandle;
+    internal SettingHandle<int> temperatureHandle;
+    internal SettingHandle<int> maxTokensHandle;
+    internal SettingHandle<float> topPHandle;
+    internal SettingHandle<float> frequencyPenaltyHandle;
+
+    internal enum ChatGPTModel { gpt_3_5_turbo, gpt_3_5_turbo_16k, gpt_3_5_turbo_1106, gpt_4 }
+
+    private static TTPModSettings Instance;
+
+    private TTPModSettings() 
     {
-        public string addMemoryPrompt = "You are tasked with creating a small summary of how you were treated in this conversation, as well as a relationship score modifier based on how you were treated. Your entire reply should look like these examples: \" - 10 Insulted me\", or  \"+5 Had a nice chat\", or \"-25 Insulted my personality\", or \"+10 Deep conversation\", or \"+5 Complimented me\", or \"+5 Was nice to me\", or \"+0 Okay conversation\" - for your summary, it is important to stick to the structure of the examples, while still coming up with your own unique wording for how the other person treated you. This is because the score and the explanation will be added to the relationship panel in RimWorld. Do not add anything else to your reply. Only do one summary, i.e. only 1 relation score modifier and 1 explanation. Your explanation should only be one sentence, ten words maximum. Do not add anything else to your response.";
+        Instance = this;
+    }
 
-        // AI Selection Area Settings
-        [TweakValue("dropdown ai select offset", 0f, 1f)]
-        static float aiSelectionAreaTopOffset = 0.0f;
-        [TweakValue("dropdown ai select offset", 0f, 1f)]
-        static float aiSelectionAreaHeightMult = 0.22f;
-
-
-
-        // AI Selection offsets and multipliers
-        [TweakValue("dropdown ai select offset", 0f, 1f)]
-        static float aiSelectLabelLeftOffset = 0.01f;
-        [TweakValue("dropdown ai select offset", 0f, 1f)]
-        static float aiSelectLabelTopOffset = 0.00f;
-        [TweakValue("dropdown ai select offset", 0f, 1f)]
-        static float aiSelectLabelWidthMult = 0.98f;
-        [TweakValue("dropdown ai select offset", 0f, 1f)]
-        static float aiSelectLabelHeightMult = 0.43f;
-
-        // Dropdown for AI selection
-        [TweakValue("dropdown ai select offset", 0f, 1f)]
-        static float aiSelectLeftOffset = 0.01f;
-        [TweakValue("dropdown ai select offset", 0f, 1f)]
-        static float aiSelectTopOffset = 0.45f;
-        [TweakValue("dropdown ai select offset", 0f, 1f)]
-        static float aiSelectWidthMult = 0.98f;
-        [TweakValue("dropdown ai select offset", 0f, 1f)]
-        static float aiSelectHeightMult = 0.35f;
-
-        static string aiSelectDescription = "Select an AI that will speak on behalf of your pawns. OpenAI / ChatGPT is an online service that's more straightforward but costs some amount of money per message, depending on which model you use. Koboldcpp is a program which allows you to run an AI on your computer locally. This requires a strong computer but is free and better for privacy. 'None' means this mod is effectively disabled.";
-
- 
-        internal static Enums.API selectedAiType = Enums.API.None;
-
-        EnumDropdownMenu<Enums.API> aiSelectDropdownMenu;
-
-        internal static SettingsArea_ChatGPT chatGPTSettings = new SettingsArea_ChatGPT();
-        internal static SettingsArea_General generalSettings = new SettingsArea_General();
-
-        public void setup()
+    internal static string GptModelEnumToString(ChatGPTModel model)
+    {
+        switch(model)
         {
-            aiSelectDropdownMenu = new EnumDropdownMenu<Enums.API>(selectedAiType);
-            aiSelectDropdownMenu.OnDropdownItemSelected += selectedItem =>
-            {
-                selectedAiType = selectedItem;
-                Log.Message("Selected AI type: " + selectedAiType);
-            };
+            case ChatGPTModel.gpt_3_5_turbo:
+                return "gpt-3.5-turbo";
+            case ChatGPTModel.gpt_3_5_turbo_16k:
+                return "gpt-3.5-turbo-16k";
+            case ChatGPTModel.gpt_3_5_turbo_1106:
+                return "gpt-3.5-turbo-1106";
+            case ChatGPTModel.gpt_4:
+                return "gpt-4";
+            default:
+                return "ModelEnumNotFoundSorry";
+        }
+    }
+
+    public static TTPModSettings GetInstance()
+    {
+        if (Instance == null)
+        {
+            Instance = new TTPModSettings();
         }
 
-        // Save settings
-        public override void ExposeData()
+        return Instance;
+    }
+
+    public static string GetPromptVariableExplanations()
+    {
+        StringBuilder builder = new StringBuilder();
+        foreach (PromptVariable promptVar in PromptParser.promptVariables)
         {
-            Scribe_Values.Look(ref selectedAiType, "selectedAiType", Enums.API.None, true);
-            Scribe_Values.Look(ref chatGPTSettings.openAiApiKey, "openAiApiKey");
-            Scribe_Values.Look(ref chatGPTSettings.selectedOpenAiModel, "selectedOpenAiModel", "gpt-3.5-turbo", true);
-            Scribe_Values.Look(ref generalSettings.prompt, "prompt", "", true);
-            Scribe_Values.Look(ref generalSettings.temperature, "temperature", "", true);
-            Scribe_Values.Look(ref generalSettings.maxTokens, "maxTokens", "", true);
-            Scribe_Values.Look(ref generalSettings.topP, "topP", "", true);
-            Scribe_Values.Look(ref generalSettings.frequencyPenalty, "frequencyPenalty", "", true);
-            Scribe_Values.Look(ref addMemoryPrompt, "addMemoryPrompt", "You are tasked with creating a small summary of how you were treated in this conversation, as well as a relationship score modifier based on how you were treated. Your entire reply should look like these examples: \"-10 Insulted me\", or  \"+5 Had a nice chat\", or \"-25 Insulted my personality\", or \"+10 Deep conversation\", or \"+5 Complimented me\", or \"+5 Was nice to me\", or \"+0 Okay conversation\" - for your summary, it is important to stick to the structure of the examples, while still coming up with your own unique wording for how the other person treated you. This is because the score and the explanation will be added to the relationship panel in RimWorld. Do not add anything else to your reply. Only do one summary, i.e. only 1 relation score modifier and 1 explanation. Your explanation should only be one sentence, ten words maximum. Do not add anything else to your response.", true);
-            base.ExposeData();
+            builder.AppendLine(promptVar.placeholder + ": " + promptVar.explanation);
         }
+        return builder.ToString();
+    }
 
-        // Display settings menu
-        public void DisplaySettingsMenu(Rect inRect)
+    public override void DefsLoaded()
+    {
+        llmModelHandle = Settings.GetHandle("llmModel",
+            "LLM Model",
+            "Select an AI that will speak on behalf of your pawns.",
+            Enums.API.None);
+
+        chatGptModelHandle = Settings.GetHandle("chatGptModel",
+            "ChatGPT Model",
+            "Choose the GPT model to use when ChatGPT is selected.",
+            ChatGPTModel.gpt_3_5_turbo,
+            null,
+            "chatGptModel_");
+        // Note: You should define translation keys like chatGptModel_gpt_3_5_turbo in your language files for proper display.
+
+        apiKeyHandle = Settings.GetHandle("apiKey",
+            "API Key",
+            "API key for OpenAI service. This can be gotten from the OpenAI Playground website. Requires an account.",
+            "");
+
+        promptHandle = Settings.GetHandle("prompt",
+            "Default Prompt",
+            "Default prompt used for AI interactions. Here are the variables you may use:\n" + GetPromptVariableExplanations(),
+            "This conversation takes place on a planet known as a RimWorld, populated mostly by humans." +
+            " Your name is {recipient_name}, and you are a {recipient_age} year old {recipient_gender}." +
+            " You are talking to {initiator_name}, who is a {initiator_age} year old {initiator_gender}." +
+            " Your traits are: {recipient_traits_list}. Try your best to match your tone to your traits." +
+            " Your thoughts about {initiator_name} are as such: {opinion_on_initiator}." +
+            " You are currently {recipient_current_action}. {say_if_recipient_is_trader}" +
+            " Your current mood is {recipient_mood}. Your current needs are: {say_recipient_low_needs}." +
+            " {say_if_recipient_is_slave}. You have the following health conditions:" +
+            " {recipient_health_conditions}. When talking about these facts, try to use different" +
+            " wording than the wording used here. Your most recent memories are:" +
+            " {recipient_recent_memories}");
+
+        promptHandle.CustomDrawerHeight = 185;
+
+        // Custom drawer for a larger textbox
+        promptHandle.CustomDrawer = rect =>
         {
-            // AI Selection Area
-            Rect aiSelectionArea = new Rect(inRect.x, inRect.y + inRect.height * aiSelectionAreaTopOffset, inRect.width, inRect.height * aiSelectionAreaHeightMult);
-            DrawAISelectionArea(aiSelectionArea);
-
-            // ChatGPT Settings Area
-            if (selectedAiType == Enums.API.ChatGPT)
+            // Increase the height for the textbox
+            Rect textFieldRect = new Rect(rect.x, rect.y, rect.width, 180);
+                                                                           // Use GUI.TextField to draw the textbox, and update the handle's value with the result
+            string newValue = Widgets.TextArea(textFieldRect, promptHandle.Value);
+            if (newValue != promptHandle.Value)
             {
-                DrawChatGPTSettings(inRect);
+                promptHandle.Value = newValue;
+                return true; // Return true to indicate that the value has changed
             }
-        }
+            return false; // Return false if the value hasn't changed
+        };
 
-        public void DrawChatGPTSettings(Rect inRect)
-        {
-            float chatGPTSettingsAreaTopOffset = 0.228f;
-            float chatGPTSettingsAreaHeightMult = 0.30f;
-            Rect chatGPTSettingsArea = new Rect(inRect.x, inRect.y + inRect.height * chatGPTSettingsAreaTopOffset, inRect.width, inRect.height * chatGPTSettingsAreaHeightMult);
-            chatGPTSettings.Draw(chatGPTSettingsArea);
+        temperatureHandle = Settings.GetHandle("temperature",
+            "Temperature",
+            "Set the temperature.",
+            0, Validators.IntRangeValidator(0, 2));
 
-            float generalSettingsAreaTopOffset = 0.55f;
-            float generalSettingsAreaHeightMult = 0.30f;
-            Rect generalSettingsArea = new Rect(inRect.x, inRect.y + inRect.height * generalSettingsAreaTopOffset, inRect.width, inRect.height * generalSettingsAreaHeightMult);
-            generalSettings.Draw(generalSettingsArea);
-        }
+        maxTokensHandle = Settings.GetHandle("maxTokens",
+            "Max Tokens",
+            "Maximum number of tokens.",
+            512, Validators.IntRangeValidator(1, 512));
 
-        // Draw AI Selection Area
-        private void DrawAISelectionArea(Rect area)
-        {
-            Text.Font = GameFont.Small;
-            Widgets.Label(new Rect(area.x + area.width * aiSelectLabelLeftOffset, area.y + area.height * aiSelectLabelTopOffset, area.width * aiSelectLabelWidthMult, area.height * aiSelectLabelHeightMult), aiSelectDescription);
+        topPHandle = Settings.GetHandle("topP",
+            "Top P",
+            "Top P setting for randomness.",
+            1f, Validators.FloatRangeValidator(0f, 1f));
 
-            aiSelectDropdownMenu.DrawDropdown(new Rect(area.x + area.width * aiSelectLeftOffset, area.y + area.height * aiSelectTopOffset, area.width * aiSelectWidthMult, area.height * aiSelectHeightMult));
-        }
+        frequencyPenaltyHandle = Settings.GetHandle("frequencyPenalty",
+            "Frequency Penalty",
+            "Frequency penalty for repetition.",
+            0f, Validators.FloatRangeValidator(-2f, 2f));
+
+        // Visibility control for ChatGPT Settings based on LLM Model selection
+        chatGptModelHandle.VisibilityPredicate = () => llmModelHandle.Value == Enums.API.ChatGPT;
+        apiKeyHandle.VisibilityPredicate = () => llmModelHandle.Value == Enums.API.ChatGPT;
+
+        // Additional logic might be required to dynamically update the description for chatGptModelHandle based on selection
     }
 }

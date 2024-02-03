@@ -23,7 +23,7 @@ namespace AiConversations.HarmonyPatches
 
             foreach (PawnRelationshipMemoryLLM memory in PawnRelationshipTrackerLLM.memories)
             {
-                if (memory.memoryHolderPawn == pawn && memory.thoughtAboutPawn == other)
+                if (memory.memoryHolderPawnID == pawn.ThingID && memory.thoughtAboutPawnID == other.ThingID)
                 {
                     __result += memory.relationshipImpact;
                 }

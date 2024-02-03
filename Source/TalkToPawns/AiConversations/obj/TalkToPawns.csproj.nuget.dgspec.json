@@ -53,6 +53,10 @@
             "System.Net.Http": {
               "target": "Package",
               "version": "[4.3.4, )"
+            },
+            "UnlimitedHugs.Rimworld.HugsLib": {
+              "target": "Package",
+              "version": "[10.0.1, )"
             }
           }
         }

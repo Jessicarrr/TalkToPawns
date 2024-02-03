@@ -19,11 +19,11 @@ namespace AiConversations.HarmonyPatches
 
             var stringBuilder = new StringBuilder(__result + "\n");
 
-            Log.Message("Num memories: " + PawnRelationshipTrackerLLM.memories.Count());
+            //Log.Message("Num memories: " + PawnRelationshipTrackerLLM.memories.Count());
 
             foreach(PawnRelationshipMemoryLLM memory in PawnRelationshipTrackerLLM.memories)
             {
-                if(memory.memoryHolderPawn == pawn && memory.thoughtAboutPawn == other)
+                if(memory.memoryHolderPawnID == pawn.ThingID && memory.thoughtAboutPawnID == other.ThingID)
                 {
                     stringBuilder.AppendLine(" - " + memory.description + " " + memory.relationshipImpact);
                 }

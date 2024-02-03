@@ -66,13 +66,15 @@
     <Compile Include="LLMs\Networking\SerializableTypes\MessageRequest.cs" />
     <Compile Include="LLMs\Networking\SerializableTypes\Usage.cs" />
     <Compile Include="Parsing\JsonParser.cs" />
+    <Compile Include="Parsing\SaveLoadHandler.cs" />
     <Compile Include="Relationships\PawnRelationshipMemoryLLM.cs" />
     <Compile Include="Relationships\PawnRelationshipTrackerLLM.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="HarmonyPatches\Pawn_GetFloatMenuOptions_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="TTPModSettingsOld.oldstuff" />
     <Compile Include="TTPModSettings.cs" />
-    <Compile Include="TTPMod.cs" />
+    <None Include="TTPMod.cs.oldstuff" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="JsonFx">
@@ -86,6 +88,9 @@
     </PackageReference>
     <PackageReference Include="System.Net.Http">
       <Version>4.3.4</Version>
+    </PackageReference>
+    <PackageReference Include="UnlimitedHugs.Rimworld.HugsLib">
+      <Version>10.0.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup />

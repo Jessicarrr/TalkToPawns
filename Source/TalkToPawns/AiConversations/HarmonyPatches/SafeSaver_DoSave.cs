@@ -1,4 +1,7 @@
-﻿using HarmonyLib;
+﻿using AiConversations.Parsing;
+using AiConversations.Relationships;
+using HarmonyLib;
+using JsonFx.Json;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -15,7 +18,8 @@ namespace AiConversations.HarmonyPatches
     {
         public static void Postfix(string path)
         {
-            Log.Message(Path.GetFileNameWithoutExtension(path));
+            string saveFileName = Path.GetFileNameWithoutExtension(path);
+            SaveLoadHandler.TrySaveModData(saveFileName);
         }
     }
 }

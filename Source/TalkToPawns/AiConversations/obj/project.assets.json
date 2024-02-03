@@ -262,6 +262,22 @@
             "rid": "win"
           }
         }
+      },
+      "UnlimitedHugs.Rimworld.HugsLib/10.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Lib.Harmony": "2.2.2"
+        },
+        "compile": {
+          "lib/net472/HugsLib.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net472/HugsLib.dll": {
+            "related": ".xml"
+          }
+        }
       }
     },
     ".NETFramework,Version=v4.7.2/win": {
@@ -480,6 +496,22 @@
         },
         "runtime": {
           "runtimes/win/lib/net461/System.Security.Cryptography.X509Certificates.dll": {}
+        }
+      },
+      "UnlimitedHugs.Rimworld.HugsLib/10.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Lib.Harmony": "2.2.2"
+        },
+        "compile": {
+          "lib/net472/HugsLib.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net472/HugsLib.dll": {
+            "related": ".xml"
+          }
         }
       }
     },
@@ -700,6 +732,22 @@
         "runtime": {
           "lib/net461/System.Security.Cryptography.X509Certificates.dll": {}
         }
+      },
+      "UnlimitedHugs.Rimworld.HugsLib/10.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Lib.Harmony": "2.2.2"
+        },
+        "compile": {
+          "lib/net472/HugsLib.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net472/HugsLib.dll": {
+            "related": ".xml"
+          }
+        }
       }
     },
     ".NETFramework,Version=v4.7.2/win-x64": {
@@ -919,6 +967,22 @@
         "runtime": {
           "lib/net461/System.Security.Cryptography.X509Certificates.dll": {}
         }
+      },
+      "UnlimitedHugs.Rimworld.HugsLib/10.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Lib.Harmony": "2.2.2"
+        },
+        "compile": {
+          "lib/net472/HugsLib.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net472/HugsLib.dll": {
+            "related": ".xml"
+          }
+        }
       }
     },
     ".NETFramework,Version=v4.7.2/win-x86": {
@@ -1137,6 +1201,22 @@
         },
         "runtime": {
           "lib/net461/System.Security.Cryptography.X509Certificates.dll": {}
+        }
+      },
+      "UnlimitedHugs.Rimworld.HugsLib/10.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Lib.Harmony": "2.2.2"
+        },
+        "compile": {
+          "lib/net472/HugsLib.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net472/HugsLib.dll": {
+            "related": ".xml"
+          }
         }
       }
     }
@@ -1670,6 +1750,20 @@
         "system.security.cryptography.x509certificates.4.3.0.nupkg.sha512",
         "system.security.cryptography.x509certificates.nuspec"
       ]
+    },
+    "UnlimitedHugs.Rimworld.HugsLib/10.0.1": {
+      "sha512": "LSviprXJV4k2+R1IShhozRgI2joyz8BSx3Mmwddb+iivz4EBgwx7i8bt0krrIyGuVRPcwThrHDEhuo9ErgMlZQ==",
+      "type": "package",
+      "path": "unlimitedhugs.rimworld.hugslib/10.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "images/icon.png",
+        "lib/net472/HugsLib.dll",
+        "lib/net472/HugsLib.xml",
+        "unlimitedhugs.rimworld.hugslib.10.0.1.nupkg.sha512",
+        "unlimitedhugs.rimworld.hugslib.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
@@ -1677,7 +1771,8 @@
       "JsonFx >= 2.0.1209.2802",
       "Krafs.Rimworld.Ref >= 1.4.3901",
       "Lib.Harmony >= 2.2.2",
-      "System.Net.Http >= 4.3.4"
+      "System.Net.Http >= 4.3.4",
+      "UnlimitedHugs.Rimworld.HugsLib >= 10.0.1"
     ]
   },
   "packageFolders": {
@@ -1733,6 +1828,10 @@
           "System.Net.Http": {
             "target": "Package",
             "version": "[4.3.4, )"
+          },
+          "UnlimitedHugs.Rimworld.HugsLib": {
+            "target": "Package",
+            "version": "[10.0.1, )"
           }
         }
       }

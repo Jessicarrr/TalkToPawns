@@ -76,7 +76,7 @@ namespace AiConversations.Controllers
                 return;
             }
 
-            PawnRelationshipTrackerLLM.AddTestMemory(talkedToPawn, selfPawn);
+            //PawnRelationshipTrackerLLM.AddTestMemory(talkedToPawn, selfPawn);
 
             window.UpdatePawns(selfPawn, talkedToPawn);
             Find.WindowStack.Add(window);
@@ -118,9 +118,10 @@ namespace AiConversations.Controllers
             List<ChatMessage> chatHistory = window.chatHistory;
             window.loadingAiResponse = true;
 
-            var apiMessager = apiTypeToApiMessager[TTPModSettings.selectedAiType];
+            var languageModel = TTPModSettings.GetInstance().llmModelHandle.Value;
+            var apiMessager = apiTypeToApiMessager[languageModel];
             Log.Message("preparing prompt...");
-            string prompt = PromptParser.PreparePromptFor(this.selfPawn, this.talkedToPawn, TTPModSettings.generalSettings.prompt);
+            string prompt = PromptParser.PreparePromptFor(this.selfPawn, this.talkedToPawn, TTPModSettings.GetInstance().promptHandle.Value);
 
             Log.Message("prepared prompt: " + prompt);
 

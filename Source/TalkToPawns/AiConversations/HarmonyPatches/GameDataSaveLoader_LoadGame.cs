@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using AiConversations.Parsing;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace AiConversations.HarmonyPatches
     {
         public static void Postfix(string saveFileName)
         {
-            Log.Message("Loaded: " + saveFileName);
+            SaveLoadHandler.TryLoadModData(saveFileName);
         }
     }
 }

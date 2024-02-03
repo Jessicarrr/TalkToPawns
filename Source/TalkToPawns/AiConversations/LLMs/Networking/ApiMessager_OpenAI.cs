@@ -57,8 +57,10 @@ namespace AiConversations.LLMs
             // Manually construct the JSON array string
             string messagesJsonArray = "[" + string.Join(",", serializedMessages) + "]";
 
+            var modelString = TTPModSettings.GptModelEnumToString(TTPModSettings.GetInstance().chatGptModelHandle.Value);
+
             // Manually assemble the final JSON string
-            string jsonData = $"{{\"model\":\"{TTPModSettings.chatGPTSettings.selectedOpenAiModel}\",\"messages\":{messagesJsonArray}}}";
+            string jsonData = $"{{\"model\":\"{modelString}\",\"messages\":{messagesJsonArray}}}";
 
             Log.Message("Json Data compiled: " + jsonData);
             await SendPostRequestAsync(jsonData);
@@ -73,7 +75,7 @@ namespace AiConversations.LLMs
                 request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
                 request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
                 request.SetRequestHeader("Content-Type", "application/json");
-                request.SetRequestHeader("Authorization", "Bearer " + TTPModSettings.chatGPTSettings.openAiApiKey);
+                request.SetRequestHeader("Authorization", "Bearer " + TTPModSettings.GetInstance().apiKeyHandle.Value);
 
                 string responseText = await request.SendWebRequestAsync();
                 Log.Message("theeee response" + responseText);
