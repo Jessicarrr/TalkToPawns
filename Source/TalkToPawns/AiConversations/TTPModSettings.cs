@@ -2,11 +2,14 @@
 using AiConversations.HelperClasses;
 using HugsLib;
 using HugsLib.Settings;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using Verse;
 
 public class TTPModSettings : ModBase
@@ -21,8 +24,7 @@ public class TTPModSettings : ModBase
     internal SettingHandle<int> maxTokensHandle;
     internal SettingHandle<float> topPHandle;
     internal SettingHandle<float> frequencyPenaltyHandle;
-
-    internal string summaryPrompt = "Your task is to evaluate how {recipient_name} was treated in the conversation, and then provide a single summary with a relationship score modifier reflecting the overall interaction. Your response must conform to the following format: \"[score] [brief summary]\". Examples include \"+1 Enjoyable chat\" or \"-2 Insulted me\". The summary should be concise, limited to one sentence with no more than ten words, and must encapsulate the general tone of the interaction without enumerating specific events or responses. Provide only one summary and one score that reflects the aggregate sentiment of the conversation. Do not list multiple interactions or provide a detailed breakdown. The perspective should be that of {recipient_name}, offering a direct and summarized reflection of the treatment they received.";
+    internal SettingHandle<string> summaryPrompt;
 
     internal enum ChatGPTModel { gpt_3_5_turbo, gpt_3_5_turbo_16k, gpt_3_5_turbo_1106, gpt_4 }
 
@@ -117,6 +119,29 @@ public class TTPModSettings : ModBase
             if (newValue != promptHandle.Value)
             {
                 promptHandle.Value = newValue;
+                return true; // Return true to indicate that the value has changed
+            }
+            return false; // Return false if the value hasn't changed
+        };
+
+        summaryPrompt = Settings.GetHandle("summaryPrompt",
+            "Prompt for AI to create memories",
+            "Must instruct the AI to make a response that adheres to this format: '[number] [description]' - such as '+1 Good talk' or '-1 Insulted' or '2 Deep talk'. Not using this format will make the memories fail to form.",
+            "Your task is to evaluate how {recipient_name} " +
+                "was treated in the conversation, and then provide a single summary with a relationship score modifier reflecting the overall interaction. Your response must conform to the following format: \"[score] [brief summary]\". Examples include \"+1 Enjoyable chat\" or \"-2 Insulted me\". The summary should be concise, limited to one sentence with no more than ten words, and must encapsulate the general tone of the interaction without enumerating specific events or responses. Provide only one summary and one score that reflects the aggregate sentiment of the conversation. The perspective should be that of {recipient_name}, offering a direct and summarized reflection of the treatment they received.");
+
+        summaryPrompt.CustomDrawerHeight = 185;
+
+        // Custom drawer for a larger textbox
+        summaryPrompt.CustomDrawer = rect =>
+        {
+            // Increase the height for the textbox
+            Rect textFieldRect = new Rect(rect.x, rect.y, rect.width, 180);
+            // Use GUI.TextField to draw the textbox, and update the handle's value with the result
+            string newValue = Widgets.TextArea(textFieldRect, summaryPrompt.Value);
+            if (newValue != summaryPrompt.Value)
+            {
+                summaryPrompt.Value = newValue;
                 return true; // Return true to indicate that the value has changed
             }
             return false; // Return false if the value hasn't changed
