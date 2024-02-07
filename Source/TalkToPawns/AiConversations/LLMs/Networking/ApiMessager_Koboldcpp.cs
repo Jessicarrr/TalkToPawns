@@ -20,7 +20,7 @@ public class ApiMessager_KoboldCpp : ApiMessager
 
     private string RemoveSurrogatePairs(string text)
     {
-        string pattern = @"\\u[a-fA-F0-9]{4}";
+        string pattern = @"\\u[a-fA-F0-9]{4}\\u[a-fA-F0-9]{4}";
         string sanitized = Regex.Replace(text, pattern, "");
         return sanitized;
     }
@@ -75,8 +75,9 @@ public class ApiMessager_KoboldCpp : ApiMessager
             prompt = messages,
             temperature = modSettings.temperatureHandle.Value,
             top_p = modSettings.topPHandle.Value,
-            max_tokens = modSettings.maxTokensHandle.Value,
-            frequency_penalty = modSettings.frequencyPenaltyHandle.Value
+            max_length = 25,
+            rep_pen = modSettings.frequencyPenaltyHandle.Value,
+            stop_sequence = new string[] { "##", initiator.Name.ToStringFull + ":" },
         };
 
         JsonWriter writer = new JsonWriter();
@@ -87,15 +88,15 @@ public class ApiMessager_KoboldCpp : ApiMessager
 
     public override async void Send(Pawn initiator, Pawn talkedToPawn, List<ChatMessage> chatHistory, string prompt)
     {
-        string messageToSend = prompt + "\n";
+        string messageToSend = "### " + prompt;
         string messages = "";
 
         foreach(ChatMessage message in chatHistory)
         {
-            messages += "\n ###" + message.pawn.Name.ToStringFull + ": " + message.messageText;
+            messages += "### " + message.pawn.Name.ToStringFull + ": " + message.messageText;
         }
 
-        messages += "\n ###" + talkedToPawn.Name.ToStringFull + ": ";
+        messages += "### " + talkedToPawn.Name.ToStringFull + ": ";
 
         messageToSend += messages;
         var modSettings = TTPModSettings.GetInstance();
@@ -105,9 +106,9 @@ public class ApiMessager_KoboldCpp : ApiMessager
             prompt = messageToSend,
             temperature = modSettings.temperatureHandle.Value,
             top_p = modSettings.topPHandle.Value,
-            max_tokens = modSettings.maxTokensHandle.Value,
-            frequency_penalty = modSettings.frequencyPenaltyHandle.Value,
-            stop_sequence = new string[] { "#" },
+            max_length = modSettings.maxTokensHandle.Value,
+            rep_pen = modSettings.frequencyPenaltyHandle.Value,
+            stop_sequence = new string[] { "##", initiator.Name.ToStringFull + ":" },
         };
 
         JsonWriter writer = new JsonWriter();
