@@ -1,4 +1,5 @@
 ﻿using AiConversations.Relationships;
+using Mono.Security;
 using RimWorld;
 using System;
 using System.Collections;
@@ -14,6 +15,119 @@ namespace AiConversations
 {
     internal class Helpers
     {
+        // Example implementation (you'll need to define this method based on your game's logic)
+        public static bool CanTalkToPawn(Pawn pawn, Pawn targetPawn)
+        {
+            if (targetPawn.Downed || targetPawn.HostileTo(pawn))
+            {
+                return false;
+            }
+            if (pawn.Drafted)
+            {
+                return false;
+            }
+            if (targetPawn.RaceProps.IsMechanoid || targetPawn.NonHumanlikeOrWildMan() == true)
+            {
+                return false;
+            }
+            if (pawn.NonHumanlikeOrWildMan() == true)
+            {
+                return false;
+            }
+
+            // Placeholder: Check conditions such as not being hostile, within talking range, both parties capable of talking, etc.
+            return true;
+        }
+
+        public static string DescribeRelationship(Pawn perspectivePawn, Pawn otherPawn)
+        {
+            string directRelation = TryGetDirectRelation(perspectivePawn, otherPawn);
+
+            if (directRelation.NullOrEmpty() == false)
+            {
+                return otherPawn.Name.ToStringShort + " is your " + directRelation;
+            }
+
+            return GetOtherRelation(perspectivePawn, otherPawn);
+        }
+
+        private static string GetOtherRelation(Pawn perspectivePawn, Pawn otherPawn)
+        {
+            int opinionScore = perspectivePawn.relations.OpinionOf(otherPawn);
+
+            if (opinionScore > 80)
+            {
+                return perspectivePawn.Name.ToStringShort + " is deeply bonded with " + otherPawn.Name.ToStringShort;
+            }
+            else if (opinionScore > 50)
+            {
+                return perspectivePawn.Name.ToStringShort + " is good friends with " + otherPawn.Name.ToStringShort;
+            }
+            else if (opinionScore > 20)
+            {
+                return perspectivePawn.Name.ToStringShort + " is friends with " + otherPawn.Name.ToStringShort;
+            }
+            else if (opinionScore > 0)
+            {
+                return perspectivePawn.Name.ToStringShort + " is slightly favourable towards " + otherPawn.Name.ToStringShort;
+            }
+            else if (opinionScore < -80)
+            {
+                return perspectivePawn.Name.ToStringShort + " deeply hates " + otherPawn.Name.ToStringShort;
+            }
+            else if (opinionScore < -50)
+            {
+                return perspectivePawn.Name.ToStringShort + " hates " + otherPawn.Name.ToStringShort;
+            }
+            else if (opinionScore < -20)
+            {
+                return perspectivePawn.Name.ToStringShort + " dislikes " + otherPawn.Name.ToStringShort;
+            }
+            else if (opinionScore < 0)
+            {
+                return perspectivePawn.Name.ToStringShort + " is unfavourable towards " + otherPawn.Name.ToStringShort;
+            }
+            return perspectivePawn.Name.ToStringShort + " is neutral towards " + otherPawn.Name.ToStringShort;
+        }
+
+        private static string TryGetDirectRelation(Pawn perspectivePawn, Pawn otherPawn)
+        {
+            // Iterate through the direct relations of pawn1
+            foreach (var relation in perspectivePawn.relations.DirectRelations)
+            {
+                // Check if the other pawn in the relation is pawn2
+                if (relation.otherPawn == otherPawn)
+                {
+                    // Return the relation definition (e.g., Parent, Child, Lover, etc.)
+                    return relation.def.label;
+                }
+            }
+
+            // If no direct relation is found, return null or a default indicating no relation
+            return null; // Or any suitable default value
+
+        }
+
+        public static string GetBackstory(Pawn pawn)
+        {
+            string story = "";
+
+            if (pawn.story.Childhood != null)
+            {
+                story += pawn.story.Childhood.baseDesc.Formatted(pawn.Named("PAWN")).AdjustedFor(pawn).Resolve();
+            }
+            if (pawn.story.Adulthood != null)
+            {
+                if (story.NullOrEmpty() == false)
+                {
+                    story += " ";
+                }
+                story += pawn.story.Adulthood.baseDesc.Formatted(pawn.Named("PAWN")).AdjustedFor(pawn).Resolve();
+            }
+
+            return story;
+        }
+
         public static string GetNeedsThatNeedAttending(Pawn pawn)
         {
             string needsNames = "None";
@@ -102,7 +216,7 @@ namespace AiConversations
 
         public static string GetDescriptionsOfHediffs(Pawn pawn)
         {
-            Log.Message("Getting hediff descriptions for pawn...");
+            //Log.Message("Getting hediff descriptions for pawn...");
             var hediffDescriptions = "none";
 
             foreach (Hediff hediff in pawn.health.hediffSet.hediffs)
@@ -117,7 +231,7 @@ namespace AiConversations
                     // Check if hediff.Part is not null before accessing its properties
                     string partLabel = hediff.Part != null ? hediff.Part.Label : "Whole body";
                     hediffDescriptions += $"{partLabel}: {hediff.LabelCap} - {hediff.Description}, ";
-                    Log.Message("Added one. Description: " + hediffDescriptions);
+                    //Log.Message("Added one. Description: " + hediffDescriptions);
                 }
             }
 

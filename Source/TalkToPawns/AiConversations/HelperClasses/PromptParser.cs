@@ -20,8 +20,8 @@ namespace AiConversations.HelperClasses
             new PromptVariable("{recipient_name}", "The name of the player controlled pawn", (aiRecipient, initiator) => aiRecipient.Name.ToStringFull),
             new PromptVariable("{recipient_traits_list}", "The traits of the AI pawn", (aiRecipient, initiator) => Helpers.GetListOfTraits(aiRecipient)),
             new PromptVariable("{initiator_traits_list}", "The traits of the player pawn", (initiaiRecipient, initiator) => Helpers.GetListOfTraits(initiator)),
-            new PromptVariable("{opinion_on_initiator}", "The AI pawn's opinion on the player pawn", (aiRecipient, initiator) => aiRecipient.relations.OpinionExplanation(initiator)),
-            new PromptVariable("{opinion_on_recipient}", "The player pawn's opinion on the AI pawn", (aiRecipient, initiator) => initiator.relations.OpinionExplanation(aiRecipient)),
+            new PromptVariable("{opinion_on_initiator}", "The AI pawn's opinion on the player pawn. Will say something like {pawn1} is the child of {pawn2}", (aiRecipient, initiator) => Helpers.DescribeRelationship(aiRecipient, initiator)),
+            new PromptVariable("{opinion_on_recipient}", "The player pawn's opinion on the AI pawn Will say something like {pawn1} is the child of {pawn2}", (aiRecipient, initiator) => Helpers.DescribeRelationship(initiator, aiRecipient)),
             new PromptVariable("{recipient_current_action}", "Activity the AI pawn is currently doing.", (aiRecipient, initiator) => Helpers.GetCurrentActivityString(aiRecipient)),
             new PromptVariable("{initiator_current_action}", "Activity the player pawn is currently doing", (aiRecipient, initiator) => Helpers.GetCurrentActivityString(initiator)),
             new PromptVariable("{say_if_recipient_is_trader}", "Says directly if the pawn is a trader. If not a trader, then this will be blank.", (aiRecipient, initiator) => Helpers.PrintIfPawnIsTrader(aiRecipient)),
@@ -36,6 +36,8 @@ namespace AiConversations.HelperClasses
             new PromptVariable("{initiator_recent_memories}", "Gives a list of all the memories of the player pawn. If there are no memories, will say 'None'", (aiRecipient, initiator) => Helpers.GetRecentMemories(initiator)),
             new PromptVariable("{recipient_health_conditions}", "Lists the health conditions affecting the ai pawn. If there are none, this will say 'none'.", (aiRecipient, initiator) => Helpers.GetDescriptionsOfHediffs(aiRecipient)),
             new PromptVariable("{initiator_health_conditions}", "Lists the health conditions affecting the player pawn. If there are none, this will say 'none'.", (aiRecipient, initiator) => Helpers.GetDescriptionsOfHediffs(initiator)),
+            new PromptVariable("{recipient_backstory}", "Gives the descriptions of the ai pawn's childhood and adulthood.", (aiRecipient, initiator) => Helpers.GetBackstory(aiRecipient)),
+            new PromptVariable("{initiator_backstory}", "Gives the descriptions of the player pawn's childhood and adulthood.", (aiRecipient, initiator) => Helpers.GetBackstory(initiator)),
             //new PromptVariable("{}", "", (aiRecipient, initiator) => tix)
         };
 

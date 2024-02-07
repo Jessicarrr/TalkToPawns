@@ -10,7 +10,7 @@ using Verse;
 
 namespace AiConversations.HarmonyPatches
 {
-    [HarmonyPatch(typeof(ThingWithComps), nameof(Pawn.GetFloatMenuOptions))]
+    [HarmonyPatch(typeof(Thing), nameof(Thing.GetFloatMenuOptions))]
     public class Pawn_GetFloatMenuOptions_Patch
     {
         [HarmonyPostfix]
@@ -22,13 +22,12 @@ namespace AiConversations.HarmonyPatches
                 yield return option;
             }
 
-            // Check if the instance is a Pawn and add custom float menu option
-            if (selPawn != null && selPawn.NonHumanlikeOrWildMan() == false && selPawn != __instance && __instance is Pawn rightClickedPawn == true && rightClickedPawn.NonHumanlikeOrWildMan() == false)
+            if(__instance is Pawn targetPawn == true && selPawn != targetPawn && Helpers.CanTalkToPawn(selPawn, targetPawn))
             {
-                yield return new FloatMenuOption("Talk to " + rightClickedPawn.LabelShort, () =>
+                yield return new FloatMenuOption("Talk to " + targetPawn.LabelShort, () =>
                 {
                     // Logic to open the custom chat GUI goes here
-                    OpenChatInterface(selPawn, rightClickedPawn);
+                    OpenChatInterface(selPawn, targetPawn);
                 });
             }
         }

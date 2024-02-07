@@ -17,12 +17,12 @@ public class TTPModSettings : ModBase
     internal SettingHandle<ChatGPTModel> chatGptModelHandle;
     internal SettingHandle<string> apiKeyHandle;
     internal SettingHandle<string> promptHandle;
-    internal SettingHandle<int> temperatureHandle;
+    internal SettingHandle<float> temperatureHandle;
     internal SettingHandle<int> maxTokensHandle;
     internal SettingHandle<float> topPHandle;
     internal SettingHandle<float> frequencyPenaltyHandle;
 
-    internal string summaryPrompt = "You are tasked with creating a small summary of how {recipient_name} was treated in this conversation, as well as a relationship score modifier based on how the conversation went. Your entire reply should look like these examples: \"-2 Insulted me\", or  \"+1 Had a nice chat\", or \"-5 Insulted my personality\", or \"+5 Deep conversation\", or \"+1 Complimented me\", or \"+1 Was nice to me\", or \"+0 Okay conversation\" - for your summary, it is important to stick to the structure of the examples, while still coming up with your own unique wording for how the other person treated you. Your explanation should only be one sentence, ten words maximum. Do not add anything else to your reply. Write from the perspective of {recipient_name}. Only do one summary, i.e. only 1 relation score modifier and 1 explanation.";
+    internal string summaryPrompt = "Your task is to evaluate how {recipient_name} was treated in the conversation, and then provide a single summary with a relationship score modifier reflecting the overall interaction. Your response must conform to the following format: \"[score] [brief summary]\". Examples include \"+1 Enjoyable chat\" or \"-2 Insulted me\". The summary should be concise, limited to one sentence with no more than ten words, and must encapsulate the general tone of the interaction without enumerating specific events or responses. Provide only one summary and one score that reflects the aggregate sentiment of the conversation. Do not list multiple interactions or provide a detailed breakdown. The perspective should be that of {recipient_name}, offering a direct and summarized reflection of the treatment they received.";
 
     internal enum ChatGPTModel { gpt_3_5_turbo, gpt_3_5_turbo_16k, gpt_3_5_turbo_1106, gpt_4 }
 
@@ -124,22 +124,22 @@ public class TTPModSettings : ModBase
 
         temperatureHandle = Settings.GetHandle("temperature",
             "Temperature",
-            "Set the temperature.",
-            0, Validators.IntRangeValidator(0, 2));
+            "Set the temperature. This controls how much 'randomness' or unpredictability to use. Higher values mean more creative. Lower values mean more deterministic.",
+            0.2f, Validators.FloatRangeValidator(0f, 2f));
 
         maxTokensHandle = Settings.GetHandle("maxTokens",
             "Max Tokens",
-            "Maximum number of tokens.",
+            "Maximum number of tokens. More tokens means this will allow longer responses.",
             512, Validators.IntRangeValidator(1, 512));
 
         topPHandle = Settings.GetHandle("topP",
             "Top P",
-            "Top P setting for randomness.",
+            "Top P setting",
             1f, Validators.FloatRangeValidator(0f, 1f));
 
         frequencyPenaltyHandle = Settings.GetHandle("frequencyPenalty",
             "Frequency Penalty",
-            "Frequency penalty for repetition.",
+            "Frequency penalty for repetition. Higher the penalty, the less tolerant of repetition the model will be.",
             0f, Validators.FloatRangeValidator(-2f, 2f));
 
         // Visibility control for ChatGPT Settings based on LLM Model selection

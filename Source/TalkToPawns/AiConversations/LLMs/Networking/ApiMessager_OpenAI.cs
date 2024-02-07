@@ -14,12 +14,29 @@ using UnityEngine;
 using AiConversations.LLMs.Networking.Extensions;
 using AiConversations.LLMs.Networking.SerializableTypes;
 using System.Runtime.Remoting.Messaging;
+using JsonFx.Json;
+using System.Runtime.Serialization;
 
 namespace AiConversations.LLMs
 {
     internal class ApiMessager_OpenAI : ApiMessager
     {
         public new string baseUrl = "https://api.openai.com/v1/chat/completions";
+
+        internal override string GetMessageFromResponse(string response)
+        {
+            try
+            {
+                var reader = new JsonReader();
+                var result = reader.Read<ChatCompletionResponse>(response);
+                return result.choices[0].message.content;
+            }
+            catch(SerializationException e)
+            {
+                Log.Message("SerializationException in ApiMessager_OpenAI:\n" + response + "\n" + e.Message + "\n" + e.StackTrace);
+                return e.Message;
+            }
+        }
 
         public override async void RequestChatMemory(Pawn initiator, Pawn talkedToPawn, List<ChatMessage> chatHistory, string chatPrompt, string memoryPrompt)
         {
@@ -67,7 +84,7 @@ namespace AiConversations.LLMs
             // Manually assemble the final JSON string
             string jsonData = $"{{\"model\":\"{modelString}\",\"messages\":{messagesJsonArray}}}";
 
-            Log.Message("Memory related Json Data compiled: " + jsonData);
+            //Log.Message("Memory related Json Data compiled: " + jsonData);
             await SendPostRequestAsync(jsonData, true);
         }
 
@@ -111,7 +128,7 @@ namespace AiConversations.LLMs
             // Manually assemble the final JSON string
             string jsonData = $"{{\"model\":\"{modelString}\",\"messages\":{messagesJsonArray}}}";
 
-            Log.Message("Json Data compiled: " + jsonData);
+            Log.Message("Sending to OpenAI: " + jsonData);
             await SendPostRequestAsync(jsonData);
         }
 
@@ -127,9 +144,10 @@ namespace AiConversations.LLMs
                 request.SetRequestHeader("Authorization", "Bearer " + TTPModSettings.GetInstance().apiKeyHandle.Value);
 
                 string responseText = await request.SendWebRequestAsync();
-                Log.Message("theeee response" + responseText);
-                InvokeEvent(responseText, isSummary);
-                
+                Log.Message("OpenAI Response: " + responseText);
+                string message = GetMessageFromResponse(responseText);
+                InvokeEvent(message, isSummary);
+
                 return responseText;
             }
             catch(Exception ex)

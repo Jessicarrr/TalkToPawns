@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,20 @@ namespace AiConversations.Relationships
     [DataContract]
     public class PawnRelationshipMemoryLLM
     {
+        [DataMember]
         public int relationshipImpact;
+        [DataMember]
         public string description;
+        [DataMember]
         public string memoryHolderPawnID;
+        [DataMember]
         public string thoughtAboutPawnID;
+        [DataMember]
         public int timesRepeated = 1;
+        [DataMember]
+        public int createdAtTick { get; private set; }
+        [DataMember]
+        public int expiryTick { get; private set; }
 
         public PawnRelationshipMemoryLLM(string memoryHolderPawnID, string thoughtAboutPawnID, int relationshipImpact, string description)
         {
@@ -26,10 +36,48 @@ namespace AiConversations.Relationships
             this.description = description;
         }
 
+        public void FirstTimeSetup()
+        {
+            SetCreatedAtTick();
+            SetExpiryTick(createdAtTick, relationshipImpact);
+        }
+
+        private void SetCreatedAtTick()
+        {
+            createdAtTick = Find.TickManager.TicksGame;
+        }
+
+        private void SetExpiryTick(int startTime, int relationshipImpact)
+        {
+            int expiryTimeBase = GenDate.TicksPerDay;
+            int hoursPerRelationshipImpact = 2;
+
+            int additionalTime = Math.Abs(relationshipImpact) * GenDate.TicksPerHour * hoursPerRelationshipImpact;
+            int totalTime = expiryTimeBase + additionalTime;
+            int expiryTime = startTime + totalTime;
+
+            this.expiryTick = expiryTime;
+        }
+
+        public bool IsExpired()
+        {
+            var currentTime = Find.TickManager.TicksGame;
+
+            if (currentTime >= expiryTick)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public void AddRepeat(int relationshipImpact)
         {
             this.relationshipImpact += relationshipImpact;
             timesRepeated++;
+
+            var currentTime = Find.TickManager.TicksGame;
+            SetExpiryTick(currentTime, relationshipImpact);
         }
 
         public string GetOpinionString()

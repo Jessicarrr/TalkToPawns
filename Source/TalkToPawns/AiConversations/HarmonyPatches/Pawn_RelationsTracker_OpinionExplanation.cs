@@ -17,18 +17,9 @@ namespace AiConversations.HarmonyPatches
         {
             Pawn pawn = (Pawn)AccessTools.Field(typeof(Pawn_RelationsTracker), "pawn").GetValue(__instance);
 
-            var stringBuilder = new StringBuilder(__result + "\n");
+            string generatedOpinion = PawnRelationshipTrackerLLM.GetFullOpinionStringFor(pawn.ThingID, other.ThingID);
 
-            //Log.Message("Num memories: " + PawnRelationshipTrackerLLM.memories.Count());
-
-            foreach(PawnRelationshipMemoryLLM memory in PawnRelationshipTrackerLLM.memories)
-            {
-                if(memory.memoryHolderPawnID == pawn.ThingID && memory.thoughtAboutPawnID == other.ThingID)
-                {
-                    stringBuilder.AppendLine(memory.GetOpinionString());
-                }
-            }
-            __result = stringBuilder.ToString();
+            __result = __result + "\n" + generatedOpinion;
         }
     }
 }

@@ -4,6 +4,7 @@ using AiConversations.LLMs;
 using AiConversations.LLMs.Networking.SerializableTypes;
 using AiConversations.Parsing;
 using AiConversations.Relationships;
+using JsonFx.Json;
 using JsonFx.Serialization;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace AiConversations.Controllers
         {
             { Enums.API.ChatGPT, new ApiMessager_OpenAI() },
             { Enums.API.None, null },
-            { Enums.API.Kobold, null }
+            { Enums.API.Kobold, new ApiMessager_KoboldCpp() }
 
         };
 
@@ -104,62 +105,36 @@ namespace AiConversations.Controllers
             apiMessager.RequestChatMemory(selfPawn, talkedToPawn, chatHistory, chatPrompt, memoryPrompt);
         }
 
-        private void HandleChatSummaryResponse(string response)
+        private void HandleChatSummaryResponse(string message)
         {
-            try
-            {
-                ChatCompletionResponse parsed = JsonParser.ParseStringToDynamic(response);
-                string aiResponse = parsed.choices[0].message.content;
 
-                PawnRelationshipTrackerLLM.TryCreateMemoryFromString(
-                    this.talkedToPawn, this.selfPawn, aiResponse);
+            PawnRelationshipTrackerLLM.TryCreateMemoryFromString(
+                this.talkedToPawn, this.selfPawn, message);
 
-                window.loadingAiResponse = false;
+            window.loadingAiResponse = false;
 
-            }
-            catch(SerializationException e)
-            {
-                string errorMsg = MakeErrorMessage(response);
-                Log.Message(errorMsg + ", " + response + "\nSerializationException: " + e.ToString());
-                window.loadingAiResponse = false;
-            }
+
         }
 
         private void HandleAiMessage(string response, bool isSummary = false)
         {
-            Log.Message("HandleAiMessage: response: " + response.ToString());
-
-            if (isSummary == true)
+            if(isSummary == true)
             {
                 HandleChatSummaryResponse(response);
+                window.loadingAiResponse = false;
                 return;
             }
-
-            try
-            {
-                ChatCompletionResponse parsed = JsonParser.ParseStringToDynamic(response);
-                //Log.Message("HandleAiMessage: parsed: " + parsed.ToString());
-                //Log.Message("The message: " + parsed.choices[0].message.content);
-                window.AiSendMessage(talkedToPawn, parsed.choices[0].message.content);
-                window.loadingAiResponse = false;
-            }
-            catch(SerializationException e)
-            {
-                Log.Message("SerializationException: " + e.ToString());
-                string errorMsg = MakeErrorMessage(response);
-                Log.Message(errorMsg + ", " + response);
-                window.AiSendMessage(talkedToPawn, errorMsg + ", " + response);
-                window.loadingAiResponse = false;
-            }
+            window.AiSendMessage(talkedToPawn, response);
+            window.loadingAiResponse = false;
         }
 
         private string MakeErrorMessage(string response)
         {
-            if (response.Contains("401"))
+            if (response.Contains("401") && TTPModSettings.GetInstance().llmModelHandle.Value == Enums.API.ChatGPT)
             {
                 return "401 forbidden error - is your api key set up in the mod settings?";
             }
-            return "An unknown error occurred - " + response;
+            return "An error occurred - " + response;
         }
 
         private void HandleUserSentMessage(Pawn sender, string message)
@@ -169,10 +144,10 @@ namespace AiConversations.Controllers
 
             var languageModel = TTPModSettings.GetInstance().llmModelHandle.Value;
             var apiMessager = apiTypeToApiMessager[languageModel];
-            Log.Message("preparing prompt...");
+            //Log.Message("preparing prompt...");
             string prompt = PromptParser.PreparePromptFor(this.selfPawn, this.talkedToPawn, TTPModSettings.GetInstance().promptHandle.Value);
 
-            Log.Message("prepared prompt: " + prompt);
+            //Log.Message("prepared prompt: " + prompt);
 
             apiMessager.Send(selfPawn, talkedToPawn, chatHistory, prompt);
             

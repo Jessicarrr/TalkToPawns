@@ -38,11 +38,13 @@ namespace AiConversations.GUI
         public override void Close(bool doCloseSound = true)
         {
             List<ChatMessage> chatHistoryCopy = chatHistory.ListFullCopy();
-            OnWindowClosed?.Invoke(chatHistoryCopy);
+            Find.WindowStack.TryRemove(this, doCloseSound);
             chatHistory.Clear();
+            OnWindowClosed?.Invoke(chatHistoryCopy);
+            
             //Log.Message("Closed window");
             
-            Find.WindowStack.TryRemove(this, doCloseSound);
+            
         }
 
         public void UpdatePawns(Pawn selfPawn, Pawn talkedToPawn)

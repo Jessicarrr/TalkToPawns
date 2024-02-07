@@ -23,7 +23,6 @@ namespace AiConversations.LLMs
         // Define an event based on the delegate
         public event MessageReceivedEventHandler OnMessageReceived;
 
-        
         public string baseUrl = "";
 
         public bool isCallingApi = false;
@@ -32,11 +31,11 @@ namespace AiConversations.LLMs
 
         public abstract void Send(Pawn initiator, Pawn talkedToPawn, List<ChatMessage> chatHistory, string prompt);
 
+        internal abstract string GetMessageFromResponse(string response);
+
         protected void InvokeEvent(string response, bool isSummary = false)
         {
             OnMessageReceived?.Invoke(response, isSummary);
         }
-
-        //protected abstract Task PostRequest(string jsonData);
     }
 }
