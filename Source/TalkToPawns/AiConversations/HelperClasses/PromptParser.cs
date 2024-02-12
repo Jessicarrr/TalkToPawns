@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AiConversations.Relationships;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,8 +21,8 @@ namespace AiConversations.HelperClasses
             new PromptVariable("{recipient_name}", "The name of the player controlled pawn", (aiRecipient, initiator) => aiRecipient.Name.ToStringFull),
             new PromptVariable("{recipient_traits_list}", "The traits of the AI pawn", (aiRecipient, initiator) => Helpers.GetListOfTraits(aiRecipient)),
             new PromptVariable("{initiator_traits_list}", "The traits of the player pawn", (initiaiRecipient, initiator) => Helpers.GetListOfTraits(initiator)),
-            new PromptVariable("{opinion_on_initiator}", "The AI pawn's opinion on the player pawn. Will say something like {pawn1} is the child of {pawn2}", (aiRecipient, initiator) => Helpers.DescribeRelationship(aiRecipient, initiator)),
-            new PromptVariable("{opinion_on_recipient}", "The player pawn's opinion on the AI pawn Will say something like {pawn1} is the child of {pawn2}", (aiRecipient, initiator) => Helpers.DescribeRelationship(initiator, aiRecipient)),
+            new PromptVariable("{relation_to_initiator}", "The AI pawn's relation to the player pawn. Will say something like {pawn1} is the child of {pawn2}", (aiRecipient, initiator) => Helpers.DescribeRelationship(aiRecipient, initiator)),
+            new PromptVariable("{relation_to_recipient}", "The player pawn's relation to the AI pawn Will say something like {pawn1} is the child of {pawn2}", (aiRecipient, initiator) => Helpers.DescribeRelationship(initiator, aiRecipient)),
             new PromptVariable("{recipient_current_action}", "Activity the AI pawn is currently doing.", (aiRecipient, initiator) => Helpers.GetCurrentActivityString(aiRecipient)),
             new PromptVariable("{initiator_current_action}", "Activity the player pawn is currently doing", (aiRecipient, initiator) => Helpers.GetCurrentActivityString(initiator)),
             new PromptVariable("{say_if_recipient_is_trader}", "Says directly if the pawn is a trader. If not a trader, then this will be blank.", (aiRecipient, initiator) => Helpers.PrintIfPawnIsTrader(aiRecipient)),
@@ -38,6 +39,16 @@ namespace AiConversations.HelperClasses
             new PromptVariable("{initiator_health_conditions}", "Lists the health conditions affecting the player pawn. If there are none, this will say 'none'.", (aiRecipient, initiator) => Helpers.GetDescriptionsOfHediffs(initiator)),
             new PromptVariable("{recipient_backstory}", "Gives the descriptions of the ai pawn's childhood and adulthood.", (aiRecipient, initiator) => Helpers.GetBackstory(aiRecipient)),
             new PromptVariable("{initiator_backstory}", "Gives the descriptions of the player pawn's childhood and adulthood.", (aiRecipient, initiator) => Helpers.GetBackstory(initiator)),
+            new PromptVariable("{recipient_xenotype_or_human}", "Gives the xenotype name or 'human' for baseliners.", (aiRecipient, initiator) => Helpers.GetXenoTypeNameOrHuman(aiRecipient)),
+            new PromptVariable("{initiator_xenotype_or_human}", "Gives the xenotype name or 'human' for baseliners.", (aiRecipient, initiator) => Helpers.GetXenoTypeNameOrHuman(initiator)),
+            new PromptVariable("{recipient_memories_with_initiator}", "Gives a list of the most recent and impactful memories created by Talk to Pawns", (aiRecipient, initiator) => PawnRelationshipTrackerLLM.GetPromptFriendlyOpinionStringFor(aiRecipient.ThingID, initiator.ThingID)),
+            new PromptVariable("{initiator_memories_with_recipient}", "Gives a list of the most recent and impactful memories created by Talk to Pawns", (aiRecipient, initiator) => PawnRelationshipTrackerLLM.GetPromptFriendlyOpinionStringFor(initiator.ThingID, aiRecipient.ThingID)),
+            new PromptVariable("{recipient_ideo_description}", "Gives the 'narrative' part of the AI pawn's ideology", (aiRecipient, initiator) => Helpers.GetIdeoDescription(aiRecipient)),
+            new PromptVariable("{initiator_ideo_description}", "Gives the 'narrative' part of player pawn's ideology", (aiRecipient, initiator) => Helpers.GetIdeoDescription(initiator)),
+            new PromptVariable("{recipient_ideo_memes}", "Gives the description of the memes that make up the AI pawn's ideology", (aiRecipient, initiator) => Helpers.GetIdeoMemesDescriptions(aiRecipient)),
+            new PromptVariable("{initiator_ideo_memes}", "Gives the description of the memes that make up the player pawn's ideology", (aiRecipient, initiator) => Helpers.GetIdeoMemesDescriptions(initiator)),
+            new PromptVariable("{recipient_ideo_certainty}", "Gives the certainty of the AI pawn's ideology beliefs as a percentage", (aiRecipient, initiator) => (Math.Round(Helpers.GetIdeoCertainty(aiRecipient) * 100f)).ToString()),
+            new PromptVariable("{initiator_ideo_certainty}", "Gives the certainty of the player pawn's ideology beliefs as a percentage", (aiRecipient, initiator) => (Math.Round(Helpers.GetIdeoCertainty(initiator) * 100f)).ToString()),
             //new PromptVariable("{}", "", (aiRecipient, initiator) => tix)
         };
 

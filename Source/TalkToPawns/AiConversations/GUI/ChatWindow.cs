@@ -149,7 +149,7 @@ namespace AiConversations.GUI
 
         private float CalculateMessageHeight(ChatMessage message, float width)
         {
-            float buffer = 10f;  // A small buffer to account for rounding issues
+            float buffer = 100f;  // A small buffer to account for rounding issues
             return Text.CalcHeight(message.messageText, width) + buffer;
         }
 
@@ -162,16 +162,10 @@ namespace AiConversations.GUI
 
         public void AiSendMessage(Pawn pawn, string message)
         {
-            bool wasScrollbarAtBottom = IsScrollBarAtBottom();
-            Log.Message($"Was scrollbar at bottom?: {wasScrollbarAtBottom}");
             ChatMessage newMessage = new ChatMessage(pawn, message);
             chatHistory.Add(newMessage);
 
-            if (wasScrollbarAtBottom)
-            {
-                shouldUpdateScrollToBottom = true;
-                Log.Message($"Scrolling to bottom");
-            }
+            shouldUpdateScrollToBottom = true;
         }
 
         private void SendMessage()
@@ -188,20 +182,15 @@ namespace AiConversations.GUI
             // Code to handle the message sending
             // ...
 
-            // Clear the input field after sending
-            bool wasScrollbarAtBottom = IsScrollBarAtBottom();
-            Log.Message($"Was scrollbar at bottom?: {wasScrollbarAtBottom}");
+
             ChatMessage newMessage = new ChatMessage(selfPawn, inputText);
             //Log.Message($"New message: {newMessage.messageText}");
             chatHistory.Add(newMessage);
             inputText = "";
             //Log.Message($"New message 2: {newMessage.messageText}");
 
-            if (wasScrollbarAtBottom)
-            {
-                shouldUpdateScrollToBottom = true;
-                Log.Message($"Scrolling to bottom");
-            }
+            shouldUpdateScrollToBottom = true;
+            //Log.Message($"Scrolling to bottom");
 
             OnMessageSent?.Invoke(newMessage.pawn, newMessage.messageText);
 

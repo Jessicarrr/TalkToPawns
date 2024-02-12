@@ -18,7 +18,7 @@ namespace AiConversations.LLMs
 
         //protected static readonly HttpClient client = new HttpClient();
         // Define a delegate for the message sent event
-        public delegate void MessageReceivedEventHandler(string response, bool isSummary = false);
+        public delegate void MessageReceivedEventHandler(Pawn ai, Pawn player, string response, bool isSummary = false);
 
         // Define an event based on the delegate
         public event MessageReceivedEventHandler OnMessageReceived;
@@ -33,9 +33,9 @@ namespace AiConversations.LLMs
 
         internal abstract string GetMessageFromResponse(string response);
 
-        protected void InvokeEvent(string response, bool isSummary = false)
+        protected void InvokeEvent(Pawn ai, Pawn player, string response, bool isSummary = false)
         {
-            OnMessageReceived?.Invoke(response, isSummary);
+            OnMessageReceived?.Invoke(ai, player, response, isSummary);
         }
     }
 }

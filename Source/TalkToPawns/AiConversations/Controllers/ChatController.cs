@@ -105,26 +105,25 @@ namespace AiConversations.Controllers
             apiMessager.RequestChatMemory(selfPawn, talkedToPawn, chatHistory, chatPrompt, memoryPrompt);
         }
 
-        private void HandleChatSummaryResponse(string message)
+        private void HandleChatSummaryResponse(Pawn ai, Pawn player, string message)
         {
-
             PawnRelationshipTrackerLLM.TryCreateMemoryFromString(
-                this.talkedToPawn, this.selfPawn, message);
+                ai, player, message);
 
             window.loadingAiResponse = false;
 
 
         }
 
-        private void HandleAiMessage(string response, bool isSummary = false)
+        private void HandleAiMessage(Pawn ai, Pawn player, string response, bool isSummary = false)
         {
             if(isSummary == true)
             {
-                HandleChatSummaryResponse(response);
+                HandleChatSummaryResponse(ai, player, response);
                 window.loadingAiResponse = false;
                 return;
             }
-            window.AiSendMessage(talkedToPawn, response);
+            window.AiSendMessage(ai, response);
             window.loadingAiResponse = false;
         }
 

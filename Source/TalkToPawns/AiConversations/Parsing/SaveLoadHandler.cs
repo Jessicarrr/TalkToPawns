@@ -40,6 +40,7 @@ namespace AiConversations.Parsing
             JsonWriter writer = new JsonWriter();
 
             string fileName = Path.GetFileNameWithoutExtension(saveFileName);
+            
             string jsonData = writer.Write(PawnRelationshipTrackerLLM.memories);
             string destinationPath = Path.Combine(path, fileName + ".json");
             Log.Message(jsonData);

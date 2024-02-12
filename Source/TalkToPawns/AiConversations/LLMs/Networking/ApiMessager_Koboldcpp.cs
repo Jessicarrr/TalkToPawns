@@ -45,7 +45,7 @@ public class ApiMessager_KoboldCpp : ApiMessager
             else
             {
                 // "##" was not found in the string, handle accordingly
-                return final = aiResponseText.TrimStart('\n', ' ').TrimEnd('\n', ' '); ; // Outputs the original string, as "##" was not found
+                return final = aiResponseText.TrimStart('\n', ' ', '#').TrimEnd('\n', ' ', '#'); ; // Outputs the original string, as "##" was not found
             }
         }
         catch (SerializationException e)
@@ -57,33 +57,40 @@ public class ApiMessager_KoboldCpp : ApiMessager
 
     public override async void RequestChatMemory(Pawn initiator, Pawn talkedToPawn, List<ChatMessage> chatHistory, string chatPrompt, string memoryPrompt)
     {
+        var modSettings = TTPModSettings.GetInstance();
         // For this example, we're simplifying the process. You'll need to adjust this to fit your actual requirements.
-        string messages = chatPrompt + "\n" ;
+        string messages = "" ;
+
+        if(modSettings.includeChatPromptInMemoryPrompt.Value == true)
+        {
+            messages += chatPrompt;
+        }
+        //string messages = chatPrompt + "\n" ;
 
         // Combine chat history into the prompt if needed
         foreach (var msg in chatHistory)
         {
-            messages += msg.pawn.Name.ToStringFull + ": " + msg.messageText + "\n";
+            messages += "### "+ msg.pawn.Name.ToStringFull + ": " + msg.messageText + "\n";
         }
 
         messages += memoryPrompt;
-        messages += "\n### Response: ";
-        var modSettings = TTPModSettings.GetInstance();
+        //messages += "\n### Response: ";
+        
 
         var payload = new
         {
             prompt = messages,
             temperature = modSettings.temperatureHandle.Value,
             top_p = modSettings.topPHandle.Value,
-            max_length = 25,
+            max_length = modSettings.maxTokensForMemoriesHandle.Value,
             rep_pen = modSettings.frequencyPenaltyHandle.Value,
-            stop_sequence = new string[] { "##", initiator.Name.ToStringFull + ":" },
+            stop_sequence = new string[] { "#", initiator.Name.ToStringFull + ":" },
         };
 
         JsonWriter writer = new JsonWriter();
         string jsonData = writer.Write(payload);
 
-        await SendPostRequestAsync(jsonData, true);
+        await SendPostRequestAsync(talkedToPawn, initiator, jsonData, true);
     }
 
     public override async void Send(Pawn initiator, Pawn talkedToPawn, List<ChatMessage> chatHistory, string prompt)
@@ -115,10 +122,10 @@ public class ApiMessager_KoboldCpp : ApiMessager
         string jsonData = writer.Write(payload);
         Log.Message("Sending to Koboldcpp: " + jsonData);
 
-        await SendPostRequestAsync(jsonData);
+        await SendPostRequestAsync(talkedToPawn, initiator, jsonData);
     }
 
-    private async Task<string> SendPostRequestAsync(string jsonData, bool isSummary = false)
+    private async Task<string> SendPostRequestAsync(Pawn ai, Pawn player, string jsonData, bool isSummary = false)
     {
         try
         {
@@ -131,14 +138,14 @@ public class ApiMessager_KoboldCpp : ApiMessager
             string responseText = await request.SendWebRequestAsync();
             Log.Message("Koboldcpp Response: " + responseText);
             string message = GetMessageFromResponse(responseText);
-            InvokeEvent(message, isSummary);
+            InvokeEvent(ai, player, message, isSummary);
 
             return responseText;
         }
         catch (Exception ex)
         {
             Log.Message($"KoboldCpp Exception: {ex.Message}, stacktrace:\n{ex.StackTrace}");
-            InvokeEvent(ex.Message);
+            InvokeEvent(ai, player, ex.Message);
             return null;
         }
 

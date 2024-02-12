@@ -85,7 +85,7 @@ namespace AiConversations.LLMs
             string jsonData = $"{{\"model\":\"{modelString}\",\"messages\":{messagesJsonArray}}}";
 
             //Log.Message("Memory related Json Data compiled: " + jsonData);
-            await SendPostRequestAsync(jsonData, true);
+            await SendPostRequestAsync(talkedToPawn, initiator, jsonData, true);
         }
 
         public override async void Send(Pawn initiator, Pawn talkedToPawn, List<ChatMessage> chatHistory, string prompt)
@@ -129,10 +129,10 @@ namespace AiConversations.LLMs
             string jsonData = $"{{\"model\":\"{modelString}\",\"messages\":{messagesJsonArray}}}";
 
             Log.Message("Sending to OpenAI: " + jsonData);
-            await SendPostRequestAsync(jsonData);
+            await SendPostRequestAsync(talkedToPawn, initiator, jsonData);
         }
 
-        public async Task<string> SendPostRequestAsync(string jsonData, bool isSummary = false)
+        public async Task<string> SendPostRequestAsync(Pawn ai, Pawn player, string jsonData, bool isSummary = false)
         {
             try
             {
@@ -146,7 +146,7 @@ namespace AiConversations.LLMs
                 string responseText = await request.SendWebRequestAsync();
                 Log.Message("OpenAI Response: " + responseText);
                 string message = GetMessageFromResponse(responseText);
-                InvokeEvent(message, isSummary);
+                InvokeEvent(ai, player, message, isSummary);
 
                 return responseText;
             }
@@ -155,7 +155,7 @@ namespace AiConversations.LLMs
                 // Attempt to parse the response body to log more detailed error information
                 Log.Message($"Exception happened: {ex.Message}, stacktrace:\n{ex.StackTrace}");
 
-                InvokeEvent(ex.Message);
+                InvokeEvent(ai, player, ex.Message);
 
                 return null;
             }

@@ -49,10 +49,10 @@ namespace AiConversations.Relationships
 
         private void SetExpiryTick(int startTime, int relationshipImpact)
         {
-            int expiryTimeBase = GenDate.TicksPerDay;
-            int hoursPerRelationshipImpact = 2;
+            var modSettings = TTPModSettings.GetInstance();
+            int expiryTimeBase = GenDate.TicksPerDay * modSettings.memoryTimeBase.Value;
 
-            int additionalTime = Math.Abs(relationshipImpact) * GenDate.TicksPerHour * hoursPerRelationshipImpact;
+            int additionalTime = Math.Abs(relationshipImpact) * GenDate.TicksPerDay * modSettings.memoryTimePerImpact.Value;
             int totalTime = expiryTimeBase + additionalTime;
             int expiryTime = startTime + totalTime;
 

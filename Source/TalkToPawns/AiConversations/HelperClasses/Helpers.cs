@@ -15,6 +15,88 @@ namespace AiConversations
 {
     internal class Helpers
     {
+        public static string GetIdeoDescription(Pawn pawn)
+        {
+            if (ModsConfig.IdeologyActive == false)
+            {
+                return "none";
+            }
+
+            if (pawn.Ideo == null)
+            {
+                return "none";
+            }
+
+            return pawn.Ideo.description;
+        }
+
+        public static string GetIdeoMemesDescriptions(Pawn pawn)
+        {
+            if (ModsConfig.IdeologyActive == false)
+            {
+                return "none";
+            }
+
+            if (pawn.Ideo == null)
+            {
+                return "none";
+            }
+
+            if (pawn.Ideo.memes.Count() < 1)
+            {
+                return "none";
+            }
+
+            string ideologyDescriptions = "";
+
+            foreach(MemeDef meme in pawn.Ideo.memes)
+            {
+                ideologyDescriptions += meme.description + ", ";
+            }
+
+            return ideologyDescriptions.TrimEnd(' ', ',');
+        }
+
+        public static float GetIdeoCertainty(Pawn pawn)
+        {
+            if (ModsConfig.IdeologyActive == false)
+            {
+                return -1f;
+            }
+
+            if (pawn.ideo == null)
+            {
+                return -1f;
+            }
+
+            return pawn.ideo.Certainty;
+        }
+
+        public static string GetXenoTypeNameOrHuman(Pawn pawn)
+        {
+            if(ModsConfig.BiotechActive == false)
+            {
+                return "human";
+            }
+
+            if (pawn.genes == null)
+            {
+                return "human";
+            }
+
+            if (pawn.genes.xenotypeName.NullOrEmpty() == true)
+            {
+                return "human";
+            }
+
+            if (pawn.genes.xenotypeName.ToLower() == "baseliner")
+            {
+                return "human";
+            }
+
+            return pawn.genes.xenotypeName;
+        }
+
         // Example implementation (you'll need to define this method based on your game's logic)
         public static bool CanTalkToPawn(Pawn pawn, Pawn targetPawn)
         {
@@ -57,15 +139,15 @@ namespace AiConversations
 
             if (opinionScore > 80)
             {
-                return perspectivePawn.Name.ToStringShort + " is deeply bonded with " + otherPawn.Name.ToStringShort;
+                return perspectivePawn.Name.ToStringShort + " very much likes " + otherPawn.Name.ToStringShort;
             }
             else if (opinionScore > 50)
             {
-                return perspectivePawn.Name.ToStringShort + " is good friends with " + otherPawn.Name.ToStringShort;
+                return perspectivePawn.Name.ToStringShort + " likes " + otherPawn.Name.ToStringShort;
             }
             else if (opinionScore > 20)
             {
-                return perspectivePawn.Name.ToStringShort + " is friends with " + otherPawn.Name.ToStringShort;
+                return perspectivePawn.Name.ToStringShort + " is favourable towards " + otherPawn.Name.ToStringShort;
             }
             else if (opinionScore > 0)
             {
@@ -221,7 +303,8 @@ namespace AiConversations
 
             foreach (Hediff hediff in pawn.health.hediffSet.hediffs)
             {
-                if (hediff.Visible)
+                if (hediff.Visible 
+                    && (TTPModSettings.GetInstance().onlyShowBadHediffs.Value == true && hediff.def.isBad == true))
                 {
                     if (hediffDescriptions == "none")
                     {

@@ -19,10 +19,35 @@ namespace AiConversations.Relationships
 
         private static OpinionStringCache? opinionCache;
 
+        public static void TryDeleteIfTooManyMemories()
+        {
+            int maxMemories = TTPModSettings.GetInstance().maximumMemories.Value;
+            int numMemories = memories.Count();
+
+            if (numMemories <= maxMemories)
+            {
+                return;
+            }
+
+            int numExcessMemories = numMemories - maxMemories;
+
+            var listExcessMemories = memories.AsQueryable()
+                .OrderBy(queriedMemory => queriedMemory.expiryTick)
+                .Take(numExcessMemories)
+                .ToList();
+
+            foreach(var memory in listExcessMemories )
+            {
+                memories.Remove(memory);
+            }
+            opinionCache = null;
+        }
+
         public static void AddTestMemory(Pawn memoryHolder, Pawn thoughtAbout)
         {
             PawnRelationshipMemoryLLM memory = new PawnRelationshipMemoryLLM(memoryHolder.ThingID, thoughtAbout.ThingID, 1, "A test memory. Num memories: " + (memories.Count() + 1));
             memories.Add(memory);
+            TryDeleteIfTooManyMemories();
         }
 
         public static bool IsCachedEntryAppropriate(string memoryHolderID, string thoughtAboutID)
@@ -45,6 +70,46 @@ namespace AiConversations.Relationships
 
             
             return false;
+        }
+
+        public static string GetPromptFriendlyOpinionStringFor(string memoryHolderID, string thoughtAboutID)
+        {
+            var opinionString = "";
+            var memoriesOfThisPawn = memories.AsQueryable()
+                .Where(queriedMemory => queriedMemory.memoryHolderPawnID == memoryHolderID && queriedMemory.thoughtAboutPawnID == thoughtAboutID)
+                .OrderByDescending(queriedMemory => queriedMemory.createdAtTick / (GenDate.TicksPerDay / 4)) // Group by 6-hour segments
+                .ThenByDescending(queriedMemory => Math.Abs(queriedMemory.relationshipImpact))
+                .Take(TTPModSettings.GetInstance().numMemoriesInPrompt.Value)
+                .ToList();
+
+            if (memoriesOfThisPawn.Count() <= 0)
+            {
+                return "none";
+            }
+
+            foreach(var currentMemory in memoriesOfThisPawn)
+            {
+                var memoryText = currentMemory.description;
+                var memoryJudgement = "";
+
+                if (currentMemory.relationshipImpact > 0)
+                {
+                    memoryJudgement = "(positive)";
+                }
+                else if(currentMemory.relationshipImpact < 0)
+                {
+                    memoryJudgement = "(negative)";
+                }
+                else
+                {
+                    memoryJudgement = "(neutral)";
+                }
+
+                var completeMemoryText = memoryText + " " + memoryJudgement + ", ";
+                opinionString += completeMemoryText;
+            }
+
+            return opinionString.TrimEnd(',', ' ');
         }
 
         public static string GetFullOpinionStringFor(string memoryHolderID, string thoughtAboutID)
@@ -139,7 +204,8 @@ namespace AiConversations.Relationships
         public static void TryCreateMemoryFromString(Pawn memoryHolderPawn, Pawn thoughtAboutPawn, string aiResponse)
         {
             // Regular expression to match the pattern "+1 Description" or "-1 Description"
-            Regex regex = new Regex(@"^([+-]?\d+)\s(.+)");
+            // and allow for variations with symbols like "3." or "3)"
+            Regex regex = new Regex(@"^([+-]?\d+)[.,)!?:;)\]}\/-]*\s(.+)");
             Match match = regex.Match(aiResponse);
 
             // Check if the string matches the expected format
@@ -148,12 +214,12 @@ namespace AiConversations.Relationships
                 // Parsing the number as integer
                 int relationshipImpact = int.Parse(match.Groups[1].Value);
 
-                // Extracting the description
-                string description = match.Groups[2].Value;
+                // Extracting the description and trimming any punctuation or whitespace from the end
+                string description = match.Groups[2].Value
+                    .TrimStart(new char[] { ' ', ',', '.', '!', '?', ':', ';', ')', ']', '}', '/', '-' })
+                    .TrimEnd(new char[] { ' ', '.', ':', ';', ')', ']', '}', '/', '-'});
 
-                description = description.TrimEnd(' ', ',', '.');
-
-                if(TryModifyDuplicateMemory(memoryHolderPawn, thoughtAboutPawn, relationshipImpact, description) == true)
+                if (TryModifyDuplicateMemory(memoryHolderPawn, thoughtAboutPawn, relationshipImpact, description) == true)
                 {
                     DeleteExpiredMemories();
                     return;
@@ -162,11 +228,12 @@ namespace AiConversations.Relationships
                 // Creating the memory with extracted values
                 PawnRelationshipMemoryLLM memory = new PawnRelationshipMemoryLLM(memoryHolderPawn.ThingID, thoughtAboutPawn.ThingID, relationshipImpact, description);
                 memory.FirstTimeSetup();
-                
+
                 memories.Add(memory);
                 opinionCache = null;
                 Log.Message("Added memory '" + memory.description + "'. Total memories: " + memories.Count());
                 DeleteExpiredMemories();
+                TryDeleteIfTooManyMemories();
             }
             else
             {

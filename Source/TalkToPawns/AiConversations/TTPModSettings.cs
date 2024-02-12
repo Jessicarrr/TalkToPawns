@@ -22,9 +22,16 @@ public class TTPModSettings : ModBase
     internal SettingHandle<string> promptHandle;
     internal SettingHandle<float> temperatureHandle;
     internal SettingHandle<int> maxTokensHandle;
+    internal SettingHandle<int> maxTokensForMemoriesHandle;
     internal SettingHandle<float> topPHandle;
     internal SettingHandle<float> frequencyPenaltyHandle;
     internal SettingHandle<string> summaryPrompt;
+    internal SettingHandle<int> numMemoriesInPrompt;
+    internal SettingHandle<bool> onlyShowBadHediffs;
+    internal SettingHandle<bool> includeChatPromptInMemoryPrompt;
+    internal SettingHandle<int> memoryTimeBase;
+    internal SettingHandle<int> memoryTimePerImpact;
+    internal SettingHandle<int> maximumMemories;
 
     internal enum ChatGPTModel { gpt_3_5_turbo, gpt_3_5_turbo_16k, gpt_3_5_turbo_1106, gpt_4 }
 
@@ -87,6 +94,11 @@ public class TTPModSettings : ModBase
             "chatGptModel_");
         // Note: You should define translation keys like chatGptModel_gpt_3_5_turbo in your language files for proper display.
 
+        includeChatPromptInMemoryPrompt = Settings.GetHandle("includeChatPromptInMemoryPrompt",
+            "Include chat prompt in memory prompt?",
+            "Includes the 'prompt' into the prompt for creating memories. This adds more characters to the prompt overall but might give context to the conversation.",
+            false);
+
         apiKeyHandle = Settings.GetHandle("apiKey",
             "API Key",
             "API key for OpenAI service. This can be gotten from the OpenAI Playground website. Requires an account.",
@@ -95,17 +107,7 @@ public class TTPModSettings : ModBase
         promptHandle = Settings.GetHandle("prompt",
             "Default Prompt",
             "Default prompt used for AI interactions. Here are the variables you may use:\n" + GetPromptVariableExplanations(),
-            "This conversation takes place on a planet known as a RimWorld, populated mostly by humans." +
-            " Your name is {recipient_name}, and you are a {recipient_age} year old {recipient_gender}." +
-            " You are talking to {initiator_name}, who is a {initiator_age} year old {initiator_gender}." +
-            " Your traits are: {recipient_traits_list}. Try your best to match your tone to your traits." +
-            " Your thoughts about {initiator_name} are as such: {opinion_on_initiator}." +
-            " You are currently {recipient_current_action}. {say_if_recipient_is_trader}" +
-            " Your current mood is {recipient_mood}. Your current needs are: {say_recipient_low_needs}." +
-            " {say_if_recipient_is_slave}. You have the following health conditions:" +
-            " {recipient_health_conditions}. When talking about these facts, try to use different" +
-            " wording than the wording used here. Your most recent memories are:" +
-            " {recipient_recent_memories}");
+            "{recipient_name} is a {recipient_age}-year-old {recipient_gender} from a RimWorld. Backstory: {recipient_backstory}. But this was {recipient_name}'s previous life. Now, {recipient_name} is currently talking to {initiator_name}, a {initiator_age} year old {initiator_gender}, while also {recipient_current_action}. {relation_to_initiator} - {recipient_name}'s traits: {recipient_traits_list}. {recipient_name} is in a {recipient_mood} mood. {recipient_name}'s needs: {say_recipient_low_needs}. {recipient_name}'s health conditions: {recipient_health_conditions}. Summary of {recipient_name}'s impressions of {initiator_name}: {recipient_memories_with_initiator}");
 
         promptHandle.CustomDrawerHeight = 185;
 
@@ -147,29 +149,60 @@ public class TTPModSettings : ModBase
             return false; // Return false if the value hasn't changed
         };
 
+        onlyShowBadHediffs = Settings.GetHandle("onlyShowBadHediffs",
+            "Only show AI bad health conditions?",
+            "Only tell the AI about bad health conditions. This can keep the prompt less cluttered by random harmless conditions.",
+            false);
+
+        numMemoriesInPrompt = Settings.GetHandle("numMemoriesInPrompt",
+            "Num memories in {recipient/initiator_memories_with_initiator}",
+            "How many memories will be put into the prompt if you use {recipient_memories_list} or {initiator_memories_list}. Keeping this short can make the AI less confused, keeping it long can add more context to the conversation.",
+            4, Validators.FloatRangeValidator(1, 20));
+
+        memoryTimeBase = Settings.GetHandle("memoryTimeBase",
+            "Base time how long memories last (days)",
+            "The base time it takes for a memory to fade away (in days). Memories will always last at least this long.",
+            10, Validators.FloatRangeValidator(1, 700));
+
+        memoryTimePerImpact = Settings.GetHandle("memoryPerImpact",
+            "Additional time memories last (days)",
+            "The extra time for memories to fade away (in days). This is based on how impactful the memory is. For example a memory like 'Insulted me: -1' will add this amount of time. -2 will give twice that amount of days.",
+            5, Validators.FloatRangeValidator(1, 700));
+
+        maximumMemories = Settings.GetHandle("maximumMemories",
+            "Maximum amount of memories to track",
+            "How many memories this mod will handle before it starts to delete the memories that were going to expire the soonest",
+            100, Validators.FloatRangeValidator(1, 1000));
+
         temperatureHandle = Settings.GetHandle("temperature",
             "Temperature",
             "Set the temperature. This controls how much 'randomness' or unpredictability to use. Higher values mean more creative. Lower values mean more deterministic.",
-            0.2f, Validators.FloatRangeValidator(0f, 2f));
+            0.7f, Validators.FloatRangeValidator(0f, 2f));
 
         maxTokensHandle = Settings.GetHandle("maxTokens",
-            "Max Tokens",
-            "Maximum number of tokens. More tokens means this will allow longer responses.",
+            "Max Tokens For AI Messages",
+            "Maximum number of 'tokens' the AI may use before it's cut off. More tokens means this will allow longer responses.",
             512, Validators.IntRangeValidator(1, 512));
+
+        maxTokensForMemoriesHandle = Settings.GetHandle("maxTokensForMemories",
+            "Max Tokens For Memories",
+            "Maximum number of tokens when asking the AI to form a memory. More tokens means this will allow longer responses.",
+            35, Validators.IntRangeValidator(1, 512));
 
         topPHandle = Settings.GetHandle("topP",
             "Top P",
             "Top P setting",
-            1f, Validators.FloatRangeValidator(0f, 1f));
+            0.92f, Validators.FloatRangeValidator(0f, 1f));
 
         frequencyPenaltyHandle = Settings.GetHandle("frequencyPenalty",
             "Frequency Penalty",
             "Frequency penalty for repetition. Higher the penalty, the less tolerant of repetition the model will be.",
-            0f, Validators.FloatRangeValidator(-2f, 2f));
+            1.1f, Validators.FloatRangeValidator(-2f, 2f));
 
         // Visibility control for ChatGPT Settings based on LLM Model selection
         chatGptModelHandle.VisibilityPredicate = () => llmModelHandle.Value == Enums.API.ChatGPT;
         apiKeyHandle.VisibilityPredicate = () => llmModelHandle.Value == Enums.API.ChatGPT;
+        includeChatPromptInMemoryPrompt.VisibilityPredicate = () => llmModelHandle.Value == Enums.API.Kobold;
 
         // Additional logic might be required to dynamically update the description for chatGptModelHandle based on selection
     }
