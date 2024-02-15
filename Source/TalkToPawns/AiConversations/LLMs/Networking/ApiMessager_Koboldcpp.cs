@@ -25,6 +25,12 @@ public class ApiMessager_KoboldCpp : ApiMessager
         return sanitized;
     }
 
+    private string RemoveAllPossiblyInvalidChars(string text)
+    {
+        string pattern = @"\\u[a-fA-F0-9]{4}";
+        string sanitized = Regex.Replace(text, pattern, "");
+        return sanitized;
+    }
 
     internal override string GetMessageFromResponse(string response)
     {
@@ -50,8 +56,31 @@ public class ApiMessager_KoboldCpp : ApiMessager
         }
         catch (SerializationException e)
         {
-            Log.Message("SerializationException in ApiMessager_Koboldcpp:\n" + response + "\n" + e.Message + "\n" + e.StackTrace);
-            return "There was an error parsing the AI's response: " + e.Message;
+            try
+            {
+                var reader = new JsonReader();
+                var responseButRemoveIllegalChars = RemoveAllPossiblyInvalidChars(response);
+                var result = reader.Read<KoboldResponse>(responseButRemoveIllegalChars);
+                var aiResponseText = result.results[0].text;
+                int cutOffIndex = aiResponseText.IndexOf("##");
+                string final = "";
+                if (cutOffIndex != -1) // If "##" is found
+                {
+                    final = aiResponseText.Substring(0, cutOffIndex);
+                    // Use the result as needed
+                    return final.TrimStart('\n', ' ').TrimEnd('\n', ' ');
+                }
+                else
+                {
+                    // "##" was not found in the string, handle accordingly
+                    return final = aiResponseText.TrimStart('\n', ' ', '#').TrimEnd('\n', ' ', '#'); ; // Outputs the original string, as "##" was not found
+                }
+            }
+            catch (SerializationException e2)
+            {
+                Log.Message("SerializationException in ApiMessager_Koboldcpp:\n" + response + "\n" + e2.Message + "\n" + e2.StackTrace);
+                return "There was an error parsing the AI's response: " + e2.Message;
+            }
         }
     }
 
