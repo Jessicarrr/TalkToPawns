@@ -19,13 +19,13 @@ You may either use **ChatGPT** or **Koboldcpp** to generate AI responses from yo
 
 - Costs a small amount of money per request (costs cents, but can add up to $1.00 per day with moderate/heavy usage)
 - Requires signing up to OpenAI's Playground website (OpenAI hosts the AI models)
-- May be overly "politically correct" and not properly roleplay a misogynist or cannibal pawn
+- May be overly "safe" in its language and not properly roleplay npcs with darker backgrounds or traits.
 - Lack of privacy: Messages you send and receive will be handled by OpenAI, and they likely save your conversations on their servers
 
 ### Koboldcpp Advantages
 
 - Free to use (doesn't cost any money)
-- Some AI models are uncensored and will willingly roleplay a misogynist or cannibal pawn
+- Some AI models are uncensored and will willingly roleplay pawns with darker backgrounds or traits.
 - Privacy: Since these are run on your computer, the AI responses and your messages won't be sent anywhere on the internet
 
 ### Koboldcpp Disadvantages
@@ -107,7 +107,7 @@ For extra information about Koboldcpp, visit their GitHub page: [Koboldcpp GitHu
       - unholy-v2-13b.Q5_K_S.gguf (works pretty well, rarely gets confused, also good for playing a character)
       - I haven't tested out any other versions of unholy.
 
-For a detailed explanation of these terms, read through the Reddit thread linked (same link as above): [A Starter Guide for Playing with Your Own Local AI](https://www.reddit.com/r/LocalLLaMA/comments/16y95hk/a_starter_guide_for_playing_with_your_own_local_ai/)
+For a detailed explanation of terms like Q5 or 7b, read through the Reddit thread linked (same link as above): [A Starter Guide for Playing with Your Own Local AI](https://www.reddit.com/r/LocalLLaMA/comments/16y95hk/a_starter_guide_for_playing_with_your_own_local_ai/)
 
 3. **Run Koboldcpp**: Configuring Koboldcpp involves selecting the appropriate settings based on your hardware and the model you've chosen.
 
