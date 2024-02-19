@@ -24,8 +24,8 @@ namespace AiConversations.GUI
         private String inputText = "";
         private Vector2 scrollPosition;
 
-        private float startingHeight = 300f;
-        private float startingWidth = 300f;
+        private float startingHeight = 400f;
+        private float startingWidth = 400f;
 
         private Rect chatDisplayRect;
 

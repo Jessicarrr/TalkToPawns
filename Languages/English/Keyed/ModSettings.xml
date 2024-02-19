@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <TtpAiType>AI Type</TtpAiType>
+  <TtpAiTypeDescription>Select an AI that will speak on behalf of your pawns.</TtpAiTypeDescription>
+  
+  <TtpChatGptModel></TtpChatGptModel>
+  <TtpChatGptModelDescription>Choose the GPT model to use when ChatGPT is selected</TtpChatGptModelDescription>
+   
+  <TtpChatPromptInMemoryPrompt>Include chat prompt in memory prompt?</TtpChatPromptInMemoryPrompt>
+  <TtpChatPromptInMemoryPromptDesc>Includes the 'prompt' into the prompt for creating memories. This adds more characters to the prompt overall but might give context to the conversation.</TtpChatPromptInMemoryPromptDesc>
+  
+  <TtpApiKey>API Key</TtpApiKey>
+  <TtpApiKeyDescription>API key for OpenAI service. This can be gotten from the OpenAI Playground website. Requires an account.</TtpApiKeyDescription>
+  
+  <TtpDefaultPrompt>Default Prompt</TtpDefaultPrompt>
+  <TtpDefaultPromptDesc>Default prompt used for AI interactions.</TtpDefaultPromptDesc>
+  
+  <TtpSummaryPrompt>Prompt for AI to create memories</TtpSummaryPrompt>
+  <TtpSummaryPromptDesc>Must instruct the AI to make a response that adheres to this format: '[number] [description]' - such as '+1 Good talk' or '-1 Insulted' or '2 Deep talk'. Not using this format will make the memories fail to form.</TtpSummaryPromptDesc>
+  
+  <TtpViewPromptVariables>View Prompt Variables</TtpViewPromptVariables>
+  
+  <TtpOnlyBadHealthConditions>Only show AI bad health conditions?</TtpOnlyBadHealthConditions>
+  <TtpOnlyBadHealthConditionsDesc>Only tell the AI about bad health conditions. This can keep the prompt less cluttered by random harmless conditions.</TtpOnlyBadHealthConditionsDesc>
+  
+  <TtpNumMemories>Num memories in {recipient/initiator_memories_with_initiator}</TtpNumMemories>
+  <TtpNumMemoriesDesc>How many memories will be put into the prompt if you use {recipient_memories_list} or {initiator_memories_list}. Keeping this short can make the AI less confused, keeping it long can add more context to the conversation.</TtpNumMemoriesDesc>
+  
+  <TtpMemoryTimeBase>Base time how long memories last (days)</TtpMemoryTimeBase>
+  <TtpMemoryTimeBaseDesc>The base time it takes for a memory to fade away (in days). Memories will always last at least this long.</TtpMemoryTimeBaseDesc>
+  
+  <TtpMemoryExtraTime>Additional time memories last (days)</TtpMemoryExtraTime>
+  <TtpMemoryExtraTimeDesc>The extra time for memories to fade away (in days). This is based on how impactful the memory is. For example a memory like 'Insulted me: -1' will add this amount of time. -2 will give twice that amount of days.</TtpMemoryExtraTimeDesc>
+  
+  <TtpMaxMemories>Maximum amount of memories to track</TtpMaxMemories>
+  <TtpMaxMemoriesDescription>How many memories this mod will handle before it starts to delete the memories that were going to expire the soonest</TtpMaxMemoriesDescription>
+  
+  <TtpTemperature>Temperature</TtpTemperature>
+  <TtpTemperatureDesc>Set the temperature. This controls how much 'randomness' or unpredictability to use. Higher values mean more creative. Lower values mean more deterministic.</TtpTemperatureDesc>
+  
+  <TtpMaxTokens>Max Tokens For AI Messages</TtpMaxTokens>
+  <TtpMaxTokensDesc>Maximum number of 'tokens' the AI may use before it's cut off. More tokens means this will allow longer responses.</TtpMaxTokensDesc>
+  
+  <TtpMaxTokensMemories>Max Tokens For Memories</TtpMaxTokensMemories>
+  <TtpMaxTokensMemoriesDesc>Maximum number of tokens when asking the AI to form a memory. More tokens means this will allow longer responses.</TtpMaxTokensMemoriesDesc>
+  
+  <TtpTopP>Top P</TtpTopP>
+  <TtpTopPDesc>Top P Setting</TtpTopPDesc>
+  
+  <TtpFrequencyPenalty>Frequency Penalty</TtpFrequencyPenalty>
+  <TtpFrequencyPenaltyDesc>Frequency penalty for repetition. Higher the penalty, the less tolerant of repetition the model will be.</TtpFrequencyPenaltyDesc>
+  
+  
+</LanguageData>

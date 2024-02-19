@@ -31,7 +31,7 @@ namespace AiConversations.HarmonyPatches
                     // Check if the pawn can be talked to (e.g., targetPawn is not downed, not hostile, etc.)
                     if (Helpers.CanTalkToPawn(pawn, targetPawn)) // Implement this method based on your criteria
                     {
-                        yield return new FloatMenuOption("Talk to " + targetPawn.LabelShort, () =>
+                        yield return new FloatMenuOption("TtpTalkTo".Translate(targetPawn.LabelShort), () =>
                         {
                             // Logic to open the custom chat GUI goes here
                             OpenChatInterface(pawn, targetPawn);

@@ -24,7 +24,7 @@ namespace AiConversations.HarmonyPatches
 
             if(__instance is Pawn targetPawn == true && selPawn != targetPawn && Helpers.CanTalkToPawn(selPawn, targetPawn))
             {
-                yield return new FloatMenuOption("Talk to " + targetPawn.LabelShort, () =>
+                yield return new FloatMenuOption("TtpTalkTo".Translate(targetPawn.LabelShort), () =>
                 {
                     // Logic to open the custom chat GUI goes here
                     OpenChatInterface(selPawn, targetPawn);

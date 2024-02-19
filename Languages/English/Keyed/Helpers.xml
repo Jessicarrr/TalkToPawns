@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <!-- A description of the ideology if they have no ideology -->
+  <TtpIdeoDescriptionNone>none</TtpIdeoDescriptionNone>
+  
+    <!-- A description of the memes in an ideology - if they have no ideology -->
+  <TtpIdeoMemesDescriptionNone>none</TtpIdeoMemesDescriptionNone>
+  
+  <!-- the xenotype name of a baseliner -->
+  <TtpXenotypeBaseliner>human</TtpXenotypeBaseliner>
+  
+  <!-- e.g. 'Jason is your child', or 'Sally is your lover' -->
+  <TtpDirectRelation>{0} is your {1}</TtpDirectRelation>
+  
+  <!-- what's said when the pawn has no low needs -->
+  <TtpNoLowNeeds>none</TtpNoLowNeeds>
+  
+  <TtpIsTrader>You are a trader</TtpIsTrader>
+  <TtpIsSlave>You are a slave</TtpIsSlave>
+  
+  <!-- Say this when the pawn has no recent memories from the mod -->
+  <TtpNoRecentMemories>none</TtpNoRecentMemories>
+  
+  <!-- Say this when the pawn has no health conditions -->
+  <TtpNoHediffs>none</TtpNoHediffs>
+  
+  <TtpNoActivity>doing nothing</TtpNoActivity>
+  
+  <!-- the following are for describing how much pawns like/hate each other -->
+  <!-- e.g. "Jason very much likes Sally" -->
+  <TtpVeryMuchLikes>{0} very much likes {1}</TtpVeryMuchLikes>
+  <TtpLikes>{0} likes {1}</TtpLikes>
+  <TtpFavourable>{0} is favourable towards {1}</TtpFavourable>
+  <TtpSlightlyFavourable>{0} is slightly favourable towards {1}</TtpSlightlyFavourable>
+  <TtpDeeplyHates>{0} deeply hates {1}</TtpDeeplyHates>
+  <TtpHates>{0} hates {1}</TtpHates>
+  <TtpDislikes>{0} dislikes {1}</TtpDislikes>
+  <TtpUnfavourable>{0} is unfavourable towards {1}</TtpUnfavourable>
+  <TtpNeutral>{0} is neutral towards {1}</TtpNeutral>
+
+</LanguageData>

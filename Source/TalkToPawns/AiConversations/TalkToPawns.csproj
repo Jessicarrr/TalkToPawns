@@ -44,6 +44,7 @@
     <Compile Include="Enums.cs" />
     <Compile Include="GUI\ChatMessage.cs" />
     <Compile Include="GUI\ChatWindow.cs" />
+    <Compile Include="GUI\ReadOnlyTextWindow.cs" />
     <Compile Include="HarmonyPatches\FloatMenuMakerMap_AddUndraftedOrders_Patch.cs" />
     <Compile Include="HarmonyPatches\GameDataSaveLoader_LoadGame.cs" />
     <Compile Include="HarmonyPatches\Pawn_RelationsTracker_OpinionExplanation.cs" />

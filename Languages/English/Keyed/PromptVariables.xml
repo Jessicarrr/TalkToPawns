@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <!-- Existing Entries -->
+  <TtpAgeOfAIPawn>The biological age of the AI pawn</TtpAgeOfAIPawn>
+  <TtpAgeOfPlayerPawn>The biological age of the player pawn</TtpAgeOfPlayerPawn>
+  
+  <TtpGenderOfAIPawn>The gender of the AI pawn (male/female)</TtpGenderOfAIPawn>
+  <TtpGenderOfPlayerPawn>The gender of the player pawn (male/female)</TtpGenderOfPlayerPawn>
+  
+  <TtpFullNameOfPlayerPawn>The name of the player controlled pawn</TtpFullNameOfPlayerPawn>
+  <TtpFullNameOfAIPawn>The name of the ai controlled pawn</TtpFullNameOfAIPawn>
+  
+  <TtpShortNameOfAIPawn>The nickname of the ai controlled pawn</TtpShortNameOfAIPawn>
+  <TtpShortNameOfPlayerPawn>The nickname of the player controlled pawn</TtpShortNameOfPlayerPawn>
+  
+  <TtpTraitsOfAIPawn>The traits of the AI pawn</TtpTraitsOfAIPawn>
+  <TtpTraitsOfPlayerPawn>The traits of the player pawn</TtpTraitsOfPlayerPawn>
+  
+  <TtpAiRelationToPlayerPawn>The AI pawn's relation to the player pawn. Will say something like '{pawn1} is the child of {pawn2}'</TtpAiRelationToPlayerPawn>
+  <TtpPlayerRelationToAiPawn>The player pawn's relation to the AI pawn Will say something like '{pawn1} is the child of {pawn2}'</TtpPlayerRelationToAiPawn>
+  
+  <TtpAiCurrentActivity>Activity the AI pawn is currently doing.</TtpAiCurrentActivity>
+  <TtpPlayerCurrentActivity>Activity the player pawn is currently doing</TtpPlayerCurrentActivity>
+  
+  <TtpAiPawnTrader>Says directly if the pawn is a trader. If not a trader, then this will be blank.</TtpAiPawnTrader>
+  <TtpPlayerPawnTrader>Says if the player pawn is a trader. If not a trader, then this will be blank.</TtpPlayerPawnTrader>
+  
+  <TtpAiMood>Says a word that describes the ai recipient's mood</TtpAiMood>
+  <TtpPlayerMood>Says a word that describes the player pawn's mood</TtpPlayerMood>
+  
+  <TtpAiNeeds>Lists the ai recipient's needs that need attending. Says 'none' if no needs need attending</TtpAiNeeds>
+  <TtpPlayerNeeds>Lists the player pawn's needs that need attending. Says 'none' if no needs need attending</TtpPlayerNeeds>
+  
+  <TtpAiIsSlave>Says if the ai recipient is a slave. If they are not a slave, this will be blank.</TtpAiIsSlave>
+  <TtpPlayerIsSlave>Says if the player pawn is a slave. If they are not a slave, this will be blank.</TtpPlayerIsSlave>
+
+  <!-- New Entries -->
+  <TtpRecentMemoriesOfAIPawn>Gives a list of all the memories of the ai pawn. If there are no memories, will say 'None'</TtpRecentMemoriesOfAIPawn>
+  <TtpRecentMemoriesOfPlayerPawn>Gives a list of all the memories of the player pawn. If there are no memories, will say 'None'</TtpRecentMemoriesOfPlayerPawn>
+  
+  <TtpHealthConditionsOfAIPawn>Lists the health conditions affecting the ai pawn. If there are none, this will say 'none'.</TtpHealthConditionsOfAIPawn>
+  <TtpHealthConditionsOfPlayerPawn>Lists the health conditions affecting the player pawn. If there are none, this will say 'none'.</TtpHealthConditionsOfPlayerPawn>
+  
+  <TtpBackstoryOfAIPawn>Gives the descriptions of the ai pawn's childhood and adulthood.</TtpBackstoryOfAIPawn>
+  <TtpBackstoryOfPlayerPawn>Gives the descriptions of the player pawn's childhood and adulthood.</TtpBackstoryOfPlayerPawn>
+  
+  <TtpXenotypeOfAIPawn>Gives the xenotype name or 'human' for baseliners.</TtpXenotypeOfAIPawn>
+  <TtpXenotypeOfPlayerPawn>Gives the xenotype name or 'human' for baseliners.</TtpXenotypeOfPlayerPawn>
+  
+  <TtpMemoriesWithInitiatorOfAIPawn>Gives a list of the most recent and impactful memories created by Talk to Pawns</TtpMemoriesWithInitiatorOfAIPawn>
+  <TtpMemoriesWithRecipientOfPlayerPawn>Gives a list of the most recent and impactful memories created by Talk to Pawns</TtpMemoriesWithRecipientOfPlayerPawn>
+  
+  <TtpIdeoDescriptionOfAIPawn>Gives the 'narrative' part of the AI pawn's ideology</TtpIdeoDescriptionOfAIPawn>
+  <TtpIdeoDescriptionOfPlayerPawn>Gives the 'narrative' part of player pawn's ideology</TtpIdeoDescriptionOfPlayerPawn>
+  
+  <TtpIdeoMemesOfAIPawn>Gives the description of the memes that make up the AI pawn's ideology</TtpIdeoMemesOfAIPawn>
+  <TtpIdeoMemesOfPlayerPawn>Gives the description of the memes that make up the player pawn's ideology</TtpIdeoMemesOfPlayerPawn>
+  
+  <TtpIdeoCertaintyOfAIPawn>Gives the certainty of the AI pawn's ideology beliefs as a percentage</TtpIdeoCertaintyOfAIPawn>
+  <TtpIdeoCertaintyOfPlayerPawn>Gives the certainty of the player pawn's ideology beliefs as a percentage</TtpIdeoCertaintyOfPlayerPawn>
+
+  <!-- many more keys omitted -->
+</LanguageData>

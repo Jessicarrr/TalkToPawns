@@ -19,12 +19,12 @@ namespace AiConversations
         {
             if (ModsConfig.IdeologyActive == false)
             {
-                return "none";
+                return "TtpIdeoDescriptionNone".Translate();
             }
 
             if (pawn.Ideo == null)
             {
-                return "none";
+                return "TtpIdeoDescriptionNone".Translate();
             }
 
             return pawn.Ideo.description;
@@ -34,17 +34,17 @@ namespace AiConversations
         {
             if (ModsConfig.IdeologyActive == false)
             {
-                return "none";
+                return "TtpIdeoMemesDescriptionNone".Translate();
             }
 
             if (pawn.Ideo == null)
             {
-                return "none";
+                return "TtpIdeoMemesDescriptionNone".Translate();
             }
 
             if (pawn.Ideo.memes.Count() < 1)
             {
-                return "none";
+                return "TtpIdeoMemesDescriptionNone".Translate();
             }
 
             string ideologyDescriptions = "";
@@ -76,22 +76,22 @@ namespace AiConversations
         {
             if(ModsConfig.BiotechActive == false)
             {
-                return "human";
+                return "TtpXenotypeBaseliner".Translate();
             }
 
             if (pawn.genes == null)
             {
-                return "human";
+                return "TtpXenotypeBaseliner".Translate();
             }
 
             if (pawn.genes.xenotypeName.NullOrEmpty() == true)
             {
-                return "human";
+                return "TtpXenotypeBaseliner".Translate();
             }
 
             if (pawn.genes.xenotypeName.ToLower() == "baseliner")
             {
-                return "human";
+                return "TtpXenotypeBaseliner".Translate();
             }
 
             return pawn.genes.xenotypeName;
@@ -127,7 +127,8 @@ namespace AiConversations
 
             if (directRelation.NullOrEmpty() == false)
             {
-                return otherPawn.Name.ToStringShort + " is your " + directRelation;
+                return "TtpDirectRelation".Translate(otherPawn.Name.ToStringShort, directRelation);
+                //return otherPawn.Name.ToStringShort + " is your " + directRelation;
             }
 
             return GetOtherRelation(perspectivePawn, otherPawn);
@@ -139,37 +140,46 @@ namespace AiConversations
 
             if (opinionScore > 80)
             {
-                return perspectivePawn.Name.ToStringShort + " very much likes " + otherPawn.Name.ToStringShort;
+                return "TtpVeryMuchLikes".Translate(perspectivePawn.Name.ToStringShort, otherPawn.Name.ToStringShort);
+                //return perspectivePawn.Name.ToStringShort + " very much likes " + otherPawn.Name.ToStringShort;
             }
             else if (opinionScore > 50)
             {
-                return perspectivePawn.Name.ToStringShort + " likes " + otherPawn.Name.ToStringShort;
+                return "TtpLikes".Translate(perspectivePawn.Name.ToStringShort, otherPawn.Name.ToStringShort);
+                //return perspectivePawn.Name.ToStringShort + " likes " + otherPawn.Name.ToStringShort;
             }
             else if (opinionScore > 20)
             {
-                return perspectivePawn.Name.ToStringShort + " is favourable towards " + otherPawn.Name.ToStringShort;
+                return "TtpFavourable".Translate(perspectivePawn.Name.ToStringShort, otherPawn.Name.ToStringShort);
+                //return perspectivePawn.Name.ToStringShort + " is favourable towards " + otherPawn.Name.ToStringShort;
             }
             else if (opinionScore > 0)
             {
-                return perspectivePawn.Name.ToStringShort + " is slightly favourable towards " + otherPawn.Name.ToStringShort;
+                return "TtpSlightlyFavourable".Translate(perspectivePawn.Name.ToStringShort, otherPawn.Name.ToStringShort);
+                //return perspectivePawn.Name.ToStringShort + " is slightly favourable towards " + otherPawn.Name.ToStringShort;
             }
             else if (opinionScore < -80)
             {
-                return perspectivePawn.Name.ToStringShort + " deeply hates " + otherPawn.Name.ToStringShort;
+                return "TtpDeeplyHates".Translate(perspectivePawn.Name.ToStringShort, otherPawn.Name.ToStringShort);
+                //return perspectivePawn.Name.ToStringShort + " deeply hates " + otherPawn.Name.ToStringShort;
             }
             else if (opinionScore < -50)
             {
-                return perspectivePawn.Name.ToStringShort + " hates " + otherPawn.Name.ToStringShort;
+                return "TtpHates".Translate(perspectivePawn.Name.ToStringShort, otherPawn.Name.ToStringShort);
+                //return perspectivePawn.Name.ToStringShort + " hates " + otherPawn.Name.ToStringShort;
             }
             else if (opinionScore < -20)
             {
-                return perspectivePawn.Name.ToStringShort + " dislikes " + otherPawn.Name.ToStringShort;
+                return "TtpDislikes".Translate(perspectivePawn.Name.ToStringShort, otherPawn.Name.ToStringShort);
+                //return perspectivePawn.Name.ToStringShort + " dislikes " + otherPawn.Name.ToStringShort;
             }
             else if (opinionScore < 0)
             {
-                return perspectivePawn.Name.ToStringShort + " is unfavourable towards " + otherPawn.Name.ToStringShort;
+                return "TtpUnfavourable".Translate(perspectivePawn.Name.ToStringShort, otherPawn.Name.ToStringShort);
+                //return perspectivePawn.Name.ToStringShort + " is unfavourable towards " + otherPawn.Name.ToStringShort;
             }
-            return perspectivePawn.Name.ToStringShort + " is neutral towards " + otherPawn.Name.ToStringShort;
+            return "TtpNeutral".Translate(perspectivePawn.Name.ToStringShort, otherPawn.Name.ToStringShort);
+            //return perspectivePawn.Name.ToStringShort + " is neutral towards " + otherPawn.Name.ToStringShort;
         }
 
         private static string TryGetDirectRelation(Pawn perspectivePawn, Pawn otherPawn)
@@ -212,7 +222,7 @@ namespace AiConversations
 
         public static string GetNeedsThatNeedAttending(Pawn pawn)
         {
-            string needsNames = "None";
+            string needsNames = "TtpNoLowNeeds".Translate();
 
             foreach(var need in pawn.needs.AllNeeds)
             {
@@ -258,7 +268,7 @@ namespace AiConversations
 
             if (pawn.CanTradeNow)
             {
-                returner = "You are a trader.";
+                returner = "TtpIsTrader".Translate();
             }
 
             return returner;
@@ -270,7 +280,7 @@ namespace AiConversations
 
             if(pawn.IsSlave == true)
             {
-                returner = "You are a slave.";
+                returner = "TtpIsSlave".Translate();
             }
 
             return returner;
@@ -299,7 +309,7 @@ namespace AiConversations
         public static string GetDescriptionsOfHediffs(Pawn pawn)
         {
             //Log.Message("Getting hediff descriptions for pawn...");
-            var hediffDescriptions = "none";
+            var hediffDescriptions = "TtpNoHediffs".Translate();
 
             foreach (Hediff hediff in pawn.health.hediffSet.hediffs)
             {
@@ -318,7 +328,7 @@ namespace AiConversations
                 }
             }
 
-            return hediffDescriptions.TrimEnd(' ', ','); // Trim the trailing comma and space
+            return hediffDescriptions.ToString().TrimEnd(' ', ','); // Trim the trailing comma and space
         }
 
         public static string GetCurrentActivityString(Pawn pawn)
@@ -327,7 +337,7 @@ namespace AiConversations
 
             if (activity.NullOrEmpty() == true)
             {
-                activity = "doing nothing";
+                activity = "TtpNoActivity".Translate().ToString();
             }
 
             return activity;
