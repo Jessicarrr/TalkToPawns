@@ -1,0 +1,165 @@
+Before doing anything, subscribe to the Talk to Pawns mod on the steam workshop, and activate it in the mods menu.
+You may find out more about what this mod is on the steam workshop page:
+[]
+This mod will not work out of the box, and requires additional setup. Please find below the instructions on how to set up this mod.
+
+You may either use ChatGPT or Koboldcpp to generate AI responses from your pawns. Each version has their advantages and disadvantages.
+
+Advantages of using ChatGPT:
+- Simpler setup compared to Koboldcpp
+- Very fast response time during chats
+- Generally fairly intelligent
+- Does not require a strong computer or any extra computer resources
+
+Disadvantages of ChatGPT:
+- Costs a small amount of money per request (Costs cents, but adds up, can be $1.00 per day with moderate / heavy usage)
+- Requires you to sign up to OpenAI's Playground website (OpenAI hosts the AI models)
+- Can be overly "politically correct" - i.e. will not properly roleplay a misogynist or cannibal pawn.
+- Lack of privacy: Messages you send and receive will be handled by OpenAI, and they most likely save your conversations on their servers.
+
+Koboldcpp Advantages:
+- Free to use (doesn't cost any money)
+- Some AI models are uncensored, and will willingly roleplay a misogynist or cannibal pawn.
+- Privacy: Since these are run on your computer, the AI responses and your messages won't be sent anywhere on the internet.
+
+Koboldcpp Disadvantages:
+- Can require a strong computer, depending on which AI model you use
+- Could be slow to respond depending on your computer and the model you use
+- Can be 'dumber' compared to ChatGPT depending on which model you use.
+- Requires running Koboldcpp in the background as you play RimWorld
+- More difficult to set up
+
+Evaluate which one you'd prefer to use, and then follow the relevant instructions below.
+
+Setup instructions for ChatGPT for Usage with Talk to Pawns:
+
+Using ChatGPT for this purpose is not free. Every request will cost a small amount of money. If you wish to use this mod for free, skip to the Koboldcpp section below. 
+
+Important: This is different from ChatGPT Premium, which is for using their GPT-4 model on the ChatGPT website, amongst their extra features. In order to use Talk to Pawns, you must use the OpenAI Playground, which will allow this mod to communicate using OpenAI's GPT models.
+
+1. You must sign up to OpenAI's service - called the OpenAI Playground. This will allow this mod to use OpenAI's various ChatGPT models. You can sign up here:
+https://platform.openai.com/playground
+
+2. You will likely need to set up payment information on their website. This is so OpenAI will allow you to use their AI models for usage with this mod.
+
+3. Set up an API key. The API key, once generated, will look like a random sequence of letters and numbers. See instructions below.
+This can be done here:
+https://platform.openai.com/api-keys
+
+a) Press the button that says "+ Create new secret key"
+b) Name it whatever you like 
+c) Permissions: all (this is to keep things simple. feel free to set up permissions if you wish)
+d) Press the green "Create secret key" button.
+e) Do not share this secret key with anybody.
+f) Press the copy button to obtain your new secret API key
+
+For extra information and help:
+https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key
+
+
+4. Once you've copied this API key (long string of numbers and letters):
+a) Open up RimWorld
+b) Click on the options menu
+c) Click the 'Mod Options' button amongst the tabs on the left
+d) Scroll down until you see "Talk to Pawns", click on that
+e) Select AI Type "ChatGPT"
+f) Copy your API key into the relevant box near the top.
+g) Select a GPT model (click here or scroll down for information on GPT models)
+
+[image: relative location to this file: images/ModSettingsApiKey2.png]
+
+Viewing your running costs:
+https://platform.openai.com/usage
+You can see your usage here, and how much your usage has cost you so far.
+
+Information on GPT Models:
+gpt-3.5-turbo:
+The simplest model and cheapest to run.
+
+gpt-3.5-turbo-16k:
+Similar to the gpt-3.5-turbo model but with a longer context length (16k), meaning it can keep track of longer conversations.
+
+gpt-3.5-turbo-1106:
+Smarter version of gpt-3.5-turbo, with improved instruction following, and a 16k context length meaning it can keep track of longer conversations. Can cost about $0.50 to $1 USD after a few hours of usage.
+This version (1106) is the version I used most for testing this mod. While developing this mod, it cost me about USD 0.06 at most per day, for a total of $0.17 over the course of 5 days. This was me just testing out the mod, seeing if GPT works, I probably sent about 10 or 20 requests per day if I had to guess.
+
+gpt-4:
+The most sophisticated model of ChatGPT, with advanced reasoning skills, and an 8k context window. The most expensive to run.  I've used this model before in my spare time outside of developing Talk to Pawns, and it cost me a few dollars for 5 or 10 very long requests.
+
+------------------
+
+Setup Instructions for Koboldcpp:
+Koboldcpp is a local program you can run on your computer, which is capable of running AI models similar to ChatGPT. 
+
+Instructions:
+
+If you want a more detailed installation guide, I recommend reading the following reddit thread, and following along with the Koboldcpp instructions (since Talk to Pawns specifically uses Koboldcpp)
+https://www.reddit.com/r/LocalLLaMA/comments/16y95hk/a_starter_guide_for_playing_with_your_own_local_ai/
+
+If you want, you can find extra information about Koboldcpp on their github page (scroll down)
+https://github.com/LostRuins/koboldcpp
+
+1. Download Koboldcpp
+https://github.com/LostRuins/koboldcpp/releases/tag/v1.58
+Download whichever file at the bottom under "Assets" best suits your pc.
+"nocuda" versions are best for people without nvidia cards, or people with nvidia cards that don't support cuda.
+I recommend creating a folder on your PC and putting it in there.
+
+2. Download a local model - this is the actual AI model that Koboldcpp will run. Recommended downloads are below.
+I recommend putting these models into a subfolder inside where you installed koboldcpp. For example I have mine in C:/Koboldcpp/models
+These models can be found on the website huggingface. On the huggingface pages, you can find the model downloads under the "files" tab.
+Here are some models and links to download:
+
+OpenHermes-2.5-mistral: Some relatively easy to run models that are good at playing a character.
+The higher the "Q", the more sophisticated the model is, and thus the larger file size and more resources used by your computer to run it. I have used the following:
+openhermes-2.5-mistral-7b.Q3_K_S.gguf (Uses the least pc resources out of these three, can be confused and dumb)
+openhermes-2.5-mistral-7b.Q4_K_S.gguf (Moderate resource usage, sometimes confused and dumb, generally competent)
+openhermes-2.5-mistral-7b.Q5_K_S.gguf (Highest pc resources out of these three, rarely confused and dumb)
+https://huggingface.co/TheBloke/OpenHermes-2.5-Mistral-7B-GGUF/tree/main
+
+For an even 'smarter' model:
+unholy-v2-13b.Q5_K_S.gguf (works pretty well, rarely gets confused, also good for playing a character)
+I haven't tested out any other versions of unholy.
+https://huggingface.co/TheBloke/Unholy-v2-13B-GGUF
+
+You may also download other models and other versions of the above models. Generally speaking, you can guess at how smart the model is using the file name. For example, 13b is generally better than 7b, Q5 is better than Q4, etc
+
+For a detailed explanation as to what these terms all mean, I recommend reading through this reddit thread (same link as I gave earlier):
+https://www.reddit.com/r/LocalLLaMA/comments/16y95hk/a_starter_guide_for_playing_with_your_own_local_ai/
+It gives lots of information about quantization (Q), model sizes, context, etc. This may help you find your own models if you want to do so.
+
+3. Run Koboldcpp. Running the exe should bring up a small settings window.
+You may copy my settings from the image, or scroll down for a more detailed text guide to my settings:
+[image relative path: images/koboldsettings.png]
+
+Settings guide:
+Presets: choose either Use CLBlast, or Use CuBlas (if using Cuda)
+GPU ID: Which GPU will help run your model
+Low VRAM: Good if you don't have much VRAM. I use this setting with more demanding models, I have 8GB VRAM for reference.
+GPU Layers: Play around with this value to see which gets you the best speeds. Personally mine works well with 33.
+Context Size: How much of the conversation the robot can analyze at once. This will depend on your model. 4096 is generally a good number.
+Model: Click "Browse" and select the model you want to use (the one you downloaded in the previous step).
+
+At the bottom, when you're happy with your settings, press "Save" to save your current settings.
+"Load" to load your previous settings that you've saved.
+
+Once done, press "Launch".
+This should create a console window with various information inside of it.
+Keep this application running, because the Talk to Pawns mod will interface with it.
+
+4. Setting up Koboldcpp in RimWorld
+a) Go into RimWorld
+b) Click on the options menu
+c) Click the 'Mod Options' button amongst the tabs on the left
+d) Scroll down until you see "Talk to Pawns", click on that
+e) Select AI Type "Koboldcpp"
+
+5. Recommended prompt for ai to create memories
+While it's totally optional and up to you, I found that using a different prompt to create memories works best with local models. Feel free to copy paste this prompt into your "Prompt for AI to create memories" option in the mod settings menu.
+
+```
+## {recipient_name}: That wraps up our conversation, huh? It sure was something. Reflecting on past chats, I like to summarize. Like when I said '-2 Said they think I'm ugly' after a not-so-great talk, or the time I felt uplifted and went with '+3 Talked about supporting each other', it's clear I've seen a range. Now, facing this one, it's time to decide quickly and carry on. Let's keep it short as well, my day's packed. So, sticking to the format of giving a number from -5 to 5 followed by a concise summary, I'd summarize this interaction as... 
+```
+
+This prompt is used to take advantage of the AI's text completion abilities in order to make it give a proper response.
+Without this, your AI may or may not just constantly give conversation memories like "Neutral conversation" or other non committal responses.
