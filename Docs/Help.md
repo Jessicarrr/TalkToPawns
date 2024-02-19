@@ -66,7 +66,7 @@ For extra information and help, visit [OpenAI API Key Help](https://help.openai.
    - Scroll down until you see "Talk to Pawns", click on that
    - Select AI Type "ChatGPT"
    - Copy your API key into the relevant box near the top
-   - Select a GPT model (click here or scroll down for information on GPT models)
+   - Select a GPT model (scroll down for information on GPT models)
 
 ![ModSettingsApiKey2.png](Images/ModSettingsApiKey2.png)
 
@@ -117,7 +117,7 @@ For a detailed explanation of terms like Q5 or 7b, read through the Reddit threa
 - Presets: Choose either Use CLBlast, or Use CuBlas (if using Cuda)
 - GPU ID: Selects which GPU will run your model
 - Low VRAM: Useful if you have limited VRAM
-- GPU Layers: Adjust for optimal speeds
+- GPU Layers: Adjust for optimal speeds. 0 means running completely on your CPU.
 - Context Size: Determines how much of the conversation the AI can analyze at once
 - Model: Select the model you downloaded
 
