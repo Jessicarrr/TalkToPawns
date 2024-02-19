@@ -1,23 +1,38 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 
-  <TtpAiType>AI Type</TtpAiType>
-  <TtpAiTypeDescription>Select an AI that will speak on behalf of your pawns.</TtpAiTypeDescription>
+  <TtpHelpWebsiteButton>Open help website</TtpHelpWebsiteButton>
+
+  <TtpLlm_None>None</TtpLlm_None>
+  <TtpLlm_ChatGPT>ChatGPT</TtpLlm_ChatGPT>
+  <TtpLlm_Kobold>Koboldcpp</TtpLlm_Kobold>
   
-  <TtpChatGptModel></TtpChatGptModel>
-  <TtpChatGptModelDescription>Choose the GPT model to use when ChatGPT is selected</TtpChatGptModelDescription>
+  <TtpGptModel_gpt_3_5_turbo>gpt-3.5-turbo</TtpGptModel_gpt_3_5_turbo>
+  <TtpGptModel_gpt_3_5_turbo_16k>gpt-3.5-turbo-16k</TtpGptModel_gpt_3_5_turbo_16k>
+  <TtpGptModel_gpt_3_5_turbo_1106>gpt-3.5-turbo-1106</TtpGptModel_gpt_3_5_turbo_1106>
+  <TtpGptModel_gpt_4>gpt-4</TtpGptModel_gpt_4>
+
+  <TtpAiType>AI Type</TtpAiType>
+  
+  <!-- info: the multiple '\n's in the following description is a newline - i.e. like pressing enter to make a line break. -->
+  <TtpAiTypeDescription>Select an AI that will speak on behalf of your pawns.\n\nNone:\nEffectively disables the mod.\n\nChatGPT:\nUses an online service called ChatGPT, created by OpenAI. Costs a small amount of money per request.\n\nKoboldcpp:\nAn application you can run on your computer to generate AI responses. Requires a strong computer, e.g. 8GB VRAM, 16 or 32GB of RAM. Koboldcpp does not cost money.</TtpAiTypeDescription>
+  
+  <TtpChatGptModel>GPT Model</TtpChatGptModel>
+  
+  <!-- info: the multiple '\n's in the following description is a newline - i.e. like pressing enter to make a line break. -->
+  <TtpChatGptModelDescription>gpt-3.5-turbo:\nThe simplest model and cheapest to run.\n\ngpt-3.5-turbo-16k:\nSimilar to the gpt-3.5-turbo model but with a longer context length (16k), meaning it can keep track of longer conversations.\n\ngpt-3.5-turbo-1106:\nSmarter version of gpt-3.5-turbo, with improved instruction following, and a 16k context length meaning it can keep track of longer conversations. Can cost about $0.50 to $1 USD after a few hours of usage.\n\ngpt-4:\nThe most sophisticated model of ChatGPT, with advanced reasoning skills, and an 8k context window. The most expensive to run.</TtpChatGptModelDescription>
    
   <TtpChatPromptInMemoryPrompt>Include chat prompt in memory prompt?</TtpChatPromptInMemoryPrompt>
   <TtpChatPromptInMemoryPromptDesc>Includes the 'prompt' into the prompt for creating memories. This adds more characters to the prompt overall but might give context to the conversation.</TtpChatPromptInMemoryPromptDesc>
   
   <TtpApiKey>API Key</TtpApiKey>
-  <TtpApiKeyDescription>API key for OpenAI service. This can be gotten from the OpenAI Playground website. Requires an account.</TtpApiKeyDescription>
+  <TtpApiKeyDescription>API key for OpenAI service. This can be gotten from the OpenAI Playground website. Requires you to sign up with OpenAI on their playground website. This API key will link your ChatGPT usage to your account with OpenAI. API keys usually look like a long jumble of letters and numbers, paste that in here to make ChatGPT work. OpenAI blocks requests made without an API key since their service is not free.</TtpApiKeyDescription>
   
   <TtpDefaultPrompt>Default Prompt</TtpDefaultPrompt>
   <TtpDefaultPromptDesc>Default prompt used for AI interactions.</TtpDefaultPromptDesc>
   
   <TtpSummaryPrompt>Prompt for AI to create memories</TtpSummaryPrompt>
-  <TtpSummaryPromptDesc>Must instruct the AI to make a response that adheres to this format: '[number] [description]' - such as '+1 Good talk' or '-1 Insulted' or '2 Deep talk'. Not using this format will make the memories fail to form.</TtpSummaryPromptDesc>
+  <TtpSummaryPromptDesc>Must instruct the AI to make a response that adheres to this format: '[number] [description]' - such as '+1 Good talk' or '-1 Insulted' or '2 Deep talk'. Not using this format or an extremely similar format will cause the memories to not form. This does have a little bit of leeway, for example the following will work: "5! I had a great chat with Bob - it was amazing!", or "-2, bad chat."</TtpSummaryPromptDesc>
   
   <TtpViewPromptVariables>View Prompt Variables</TtpViewPromptVariables>
   

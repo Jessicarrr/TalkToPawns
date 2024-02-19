@@ -86,14 +86,15 @@ public class TTPModSettings : ModBase
         llmModelHandle = Settings.GetHandle("llmModel",
             "TtpAiType".Translate(),
             "TtpAiTypeDescription".Translate(),
-            Enums.API.None);
+            Enums.API.None,
+            null, "TtpLlm_");
 
         chatGptModelHandle = Settings.GetHandle("chatGptModel",
             "TtpChatGptModel".Translate(),
             "TtpChatGptModelDescription".Translate(),
             ChatGPTModel.gpt_3_5_turbo,
             null,
-            "chatGptModel_");
+            "TtpGptModel_");
         // Note: You should define translation keys like chatGptModel_gpt_3_5_turbo in your language files for proper display.
 
         includeChatPromptInMemoryPrompt = Settings.GetHandle("includeChatPromptInMemoryPrompt",
@@ -161,7 +162,7 @@ public class TTPModSettings : ModBase
         onlyShowBadHediffs = Settings.GetHandle("onlyShowBadHediffs",
             "TtpOnlyBadHealthConditions".Translate(),
             "TtpOnlyBadHealthConditionsDesc".Translate(),
-            false);
+            true);
 
         numMemoriesInPrompt = Settings.GetHandle("numMemoriesInPrompt",
             "TtpNumMemories".Translate(),

@@ -86,7 +86,7 @@ namespace AiConversations.Controllers
 
         private void HandleChatWindowClosed(List<ChatMessage> chatHistory)
         {
-            Log.Message("Chat window closed event caught " + chatHistory.ToString());
+            //Log.Message("Chat window closed event caught " + chatHistory.ToString());
 
             if (chatHistory.Count() < 1)
             {
@@ -98,7 +98,7 @@ namespace AiConversations.Controllers
 
             var languageModel = TTPModSettings.GetInstance().llmModelHandle.Value;
             var apiMessager = apiTypeToApiMessager[languageModel];
-            Log.Message("preparing prompt...");
+            //Log.Message("preparing prompt...");
             string chatPrompt = PromptParser.PreparePromptFor(this.selfPawn, this.talkedToPawn, TTPModSettings.GetInstance().promptHandle.Value);
             string memoryPrompt = PromptParser.PreparePromptFor(this.selfPawn, this.talkedToPawn, TTPModSettings.GetInstance().summaryPrompt);
 

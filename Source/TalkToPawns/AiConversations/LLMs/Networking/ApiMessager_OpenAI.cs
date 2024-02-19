@@ -80,9 +80,15 @@ namespace AiConversations.LLMs
             string messagesJsonArray = "[" + string.Join(",", serializedMessages) + "]";
 
             var modelString = TTPModSettings.GptModelEnumToString(TTPModSettings.GetInstance().chatGptModelHandle.Value);
+            var modSettings = TTPModSettings.GetInstance();
+
+            var frequency_penalty = modSettings.frequencyPenaltyHandle.Value;
+            var max_tokens = modSettings.maxTokensHandle.Value;
+            var temperature = modSettings.temperatureHandle.Value;
+            var top_p = modSettings.topPHandle.Value;
 
             // Manually assemble the final JSON string
-            string jsonData = $"{{\"model\":\"{modelString}\",\"messages\":{messagesJsonArray}}}";
+            string jsonData = $"{{\"model\":\"{modelString}\",\"messages\":{messagesJsonArray},\"frequency_penalty\":{frequency_penalty},\"max_tokens\":{max_tokens},\"temperature\":{temperature},\"top_p\":{top_p}}}";
 
             //Log.Message("Memory related Json Data compiled: " + jsonData);
             await SendPostRequestAsync(talkedToPawn, initiator, jsonData, true);
@@ -125,8 +131,16 @@ namespace AiConversations.LLMs
 
             var modelString = TTPModSettings.GptModelEnumToString(TTPModSettings.GetInstance().chatGptModelHandle.Value);
 
+            var modSettings = TTPModSettings.GetInstance();
+
+            var frequency_penalty = modSettings.frequencyPenaltyHandle.Value;
+            var max_tokens = modSettings.maxTokensHandle.Value;
+            var temperature = modSettings.temperatureHandle.Value;
+            var top_p = modSettings.topPHandle.Value;
+
             // Manually assemble the final JSON string
-            string jsonData = $"{{\"model\":\"{modelString}\",\"messages\":{messagesJsonArray}}}";
+            string jsonData = $"{{\"model\":\"{modelString}\",\"messages\":{messagesJsonArray},\"frequency_penalty\":{frequency_penalty},\"max_tokens\":{max_tokens},\"temperature\":{temperature},\"top_p\":{top_p}}}";
+
 
             Log.Message("Sending to OpenAI: " + jsonData);
             await SendPostRequestAsync(talkedToPawn, initiator, jsonData);
