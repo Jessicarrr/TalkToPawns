@@ -99,12 +99,15 @@ For extra information about Koboldcpp, visit their GitHub page: [Koboldcpp GitHu
     - **OpenHermes-2.5-mistral**: [Download from Hugging Face](https://huggingface.co/TheBloke/OpenHermes-2.5-Mistral-7B-GGUF/tree/main)
 	  - Some relatively easy to run models that are good at playing a character.
       - The higher the "Q", the more sophisticated the model is, and thus the larger file size and more resources used by your computer to run it. I have personally used the following:
-      - openhermes-2.5-mistral-7b.Q3_K_S.gguf (Uses the least pc resources out of these three, can be confused and dumb)
-      - openhermes-2.5-mistral-7b.Q4_K_S.gguf (Moderate resource usage, sometimes confused and dumb, generally competent)
-      - openhermes-2.5-mistral-7b.Q5_K_S.gguf (Highest pc resources out of these three, rarely confused and dumb)
+      - openhermes-2.5-mistral-7b.Q3_K_S.gguf (Uses the least pc resources out of these three, can get confused)
+      - openhermes-2.5-mistral-7b.Q4_K_S.gguf (Moderate resource usage, sometimes gets confused, generally competent)
+      - openhermes-2.5-mistral-7b.Q5_K_S.gguf (Highest pc resources out of these three, rarely confused)
     - **Unholy-v2-13b.Q5_K_S.gguf**: [Download from Hugging Face](https://huggingface.co/TheBloke/Unholy-v2-13B-GGUF)
+	  - For an even 'smarter' model:
+      - unholy-v2-13b.Q5_K_S.gguf (works pretty well, rarely gets confused, also good for playing a character)
+      - I haven't tested out any other versions of unholy.
 
-For a detailed explanation of these terms, read through the Reddit thread linked above.
+For a detailed explanation of these terms, read through the Reddit thread linked (same link as above): [A Starter Guide for Playing with Your Own Local AI](https://www.reddit.com/r/LocalLLaMA/comments/16y95hk/a_starter_guide_for_playing_with_your_own_local_ai/)
 
 3. **Run Koboldcpp**: Configuring Koboldcpp involves selecting the appropriate settings based on your hardware and the model you've chosen.
 
