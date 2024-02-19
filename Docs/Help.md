@@ -68,7 +68,7 @@ For extra information and help, visit [OpenAI API Key Help](https://help.openai.
    - Copy your API key into the relevant box near the top
    - Select a GPT model (click here or scroll down for information on GPT models)
 
-![ModSettingsApiKey2.png](images/ModSettingsApiKey2.png)
+![ModSettingsApiKey2.png](Images/ModSettingsApiKey2.png)
 
 **Viewing Your Running Costs**: [OpenAI Usage](https://platform.openai.com/usage) - You can see your usage here, and how much it has cost you so far.
 
@@ -103,7 +103,7 @@ For a detailed explanation of these terms, read through the Reddit thread linked
 
 3. **Run Koboldcpp**: Configuring Koboldcpp involves selecting the appropriate settings based on your hardware and the model you've chosen.
 
-![Kobold Settings](images/koboldsettings.png)
+![Kobold Settings](Images/koboldsettings.png)
 
 **Settings Guide**:
 - Presets: Choose either Use CLBlast, or Use CuBlas (if using Cuda)
