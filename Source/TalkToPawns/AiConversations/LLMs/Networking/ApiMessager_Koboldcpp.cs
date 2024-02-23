@@ -78,7 +78,9 @@ public class ApiMessager_KoboldCpp : ApiMessager
             }
             catch (SerializationException e2)
             {
-                Log.Message("SerializationException in ApiMessager_Koboldcpp:\n" + response + "\n" + e2.Message + "\n" + e2.StackTrace);
+                
+                TTPModSettings.Log.Trace("SerializationException in ApiMessager_Koboldcpp:\n" + response + "\n" + e2.Message + "\n" + e2.StackTrace);
+                //Log.Message("SerializationException in ApiMessager_Koboldcpp:\n" + response + "\n" + e2.Message + "\n" + e2.StackTrace);
                 return "There was an error parsing the AI's response: " + e2.Message;
             }
         }

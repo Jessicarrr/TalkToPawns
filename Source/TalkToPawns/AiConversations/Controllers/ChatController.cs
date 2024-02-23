@@ -90,7 +90,8 @@ namespace AiConversations.Controllers
 
             if (chatHistory.Count() < 1)
             {
-                Log.Message("Chat history was empty so we don't need to ask for a summary.");
+                TTPModSettings.Log.Trace("Chat history was empty so we don't need to ask for a summary.");
+                //Log.Message("Chat history was empty so we don't need to ask for a summary.");
                 return;
             }
 

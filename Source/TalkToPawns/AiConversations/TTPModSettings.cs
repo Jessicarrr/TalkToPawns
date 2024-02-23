@@ -3,6 +3,7 @@ using AiConversations.GUI;
 using AiConversations.HelperClasses;
 using HugsLib;
 using HugsLib.Settings;
+using HugsLib.Utils;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -39,9 +40,12 @@ public class TTPModSettings : ModBase
     private static TTPModSettings Instance;
     internal static ReadOnlyTextWindow window;
 
+    public static ModLogger Log;
+
     private TTPModSettings() 
     {
         Instance = this;
+        Log = this.Logger;
     }
 
     internal static string GptModelEnumToString(ChatGPTModel model)
